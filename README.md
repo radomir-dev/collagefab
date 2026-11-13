@@ -30,8 +30,9 @@ server-side fallback.
 
 The demo and docs are published to GitHub Pages:
 
-1. Demo — <https://tiriana.github.io/collagefab/>
-2. Components API — <https://tiriana.github.io/collagefab/#/docs>
+1. Demo — <https://www.radomir.dev/collagefab/>
+2. Components API — <https://www.radomir.dev/collagefab/#/docs>
+3. Playground — <https://www.radomir.dev/collagefab/#/playground>
 
 `.github/workflows/deploy.yml` builds the project and publishes `dist/` on every
 push to `main`. The production build uses a `/collagefab/` asset base while the
