@@ -157,7 +157,10 @@ export interface CollageFabProps
    */
   disableClickAway?: boolean;
   /**
-   * Duration of the morph, in milliseconds.
+   * Duration of the morph, in milliseconds. The mask that slices the buttons is
+   * given a longer, internally derived duration so its cut line resolves late in
+   * the morph rather than in the first quarter; passing `0` still disables all
+   * animation.
    * @default 400
    */
   transitionDuration?: number;
@@ -183,6 +186,8 @@ function resolveSize(size: CollageFabSize): number {
 function getTransitionTiming(duration: number, easing: string): string {
   return `${duration}ms ${easing}`;
 }
+
+const MASK_LAG_MULTIPLIER = 3.2; // the mask clears in ~a quarter of its travel; stretching it lands the fade at ~80% of the morph
 
 /**
  * Every mask is an absolutely positioned window that is slid against the item's
@@ -283,6 +288,10 @@ const CollageFabItemRoot = styled('div', {
           ? { bottom: 0 }
           : { top: 0 };
   const timing = getTransitionTiming(transitionDuration, transitionEasing);
+  const maskTiming = getTransitionTiming(
+    transitionDuration * MASK_LAG_MULTIPLIER,
+    transitionEasing,
+  );
 
   return {
     position: 'absolute',
@@ -308,7 +317,7 @@ const CollageFabItemRoot = styled('div', {
     maskPosition: geometry.maskPosition,
     WebkitMaskRepeat: 'no-repeat',
     maskRepeat: 'no-repeat',
-    transition: `transform ${timing}, -webkit-mask-position ${timing}, mask-position ${timing}`,
+    transition: `transform ${timing}, -webkit-mask-position ${maskTiming}, mask-position ${maskTiming}`,
     // Strip arbitrary shadows from the children and make them inherit the wrapper's
     // silhouette, so the root controls the global 3D shape.
     '& > *': {
