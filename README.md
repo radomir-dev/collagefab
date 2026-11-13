@@ -8,6 +8,15 @@ The trick is that each child is a full circle clipped by a static linear-gradien
 
 - Node.js 18 or newer.
 
+## Install
+
+```bash
+npm install @radomir-dev/collagefab @mui/material @emotion/react @emotion/styled
+```
+
+`react`, `react-dom`, `@mui/material` and the two emotion packages are peer
+dependencies, so the package never ships its own copy of React or MUI.
+
 ## Getting started
 
 ```bash
@@ -44,7 +53,8 @@ dev server stays at the root, so the local URL is unchanged — see
 | Command | Description |
 | --- | --- |
 | `npm run dev` | Start the Vite dev server with HMR. |
-| `npm run build` | Type-check with `tsc --noEmit`, then build to `dist/`. |
+| `npm run build` | Type-check with `tsc --noEmit`, then build the demo to `dist/`. |
+| `npm run build:lib` | Build the publishable package to `dist-lib/` (ESM + CJS + types). |
 | `npm run preview` | Serve the production build locally. |
 
 ## Usage
@@ -52,7 +62,7 @@ dev server stays at the root, so the local URL is unchanged — see
 ```tsx
 import { Fab } from '@mui/material';
 import { Settings, BugReport, Speed } from '@mui/icons-material';
-import { CollageFab } from './components/CollageFab';
+import { CollageFab } from '@radomir-dev/collagefab';
 
 <CollageFab
   direction="left"

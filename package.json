@@ -1,26 +1,77 @@
 {
-  "name": "collagefab",
-  "private": true,
+  "name": "@radomir-dev/collagefab",
   "version": "0.1.0",
+  "description": "Material UI floating action button that unfolds a stack of overlapping Fab circles into a row.",
+  "license": "MIT",
+  "author": "Radomir Wojtera",
+  "homepage": "https://www.radomir.dev/collagefab/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/radomir-dev/collagefab.git"
+  },
+  "bugs": {
+    "url": "https://github.com/radomir-dev/collagefab/issues"
+  },
+  "keywords": [
+    "mui",
+    "material-ui",
+    "react",
+    "component",
+    "floating-action-button",
+    "fab",
+    "animation",
+    "collage"
+  ],
   "type": "module",
+  "sideEffects": false,
+  "files": [
+    "dist-lib"
+  ],
+  "main": "./dist-lib/index.cjs",
+  "module": "./dist-lib/index.js",
+  "types": "./dist-lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist-lib/types/index.d.ts",
+      "import": "./dist-lib/index.js",
+      "require": "./dist-lib/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
+    "build:lib": "vite build --config vite.lib.config.ts && tsc -p tsconfig.build.json",
+    "prepublishOnly": "npm run build:lib",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mui/utils": "^5.15.0"
+  },
+  "peerDependencies": {
+    "@emotion/react": "^11.0.0",
+    "@emotion/styled": "^11.0.0",
+    "@mui/material": "^5.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.16.7",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "react-router-dom": "^7.18.4"
-  },
-  "devDependencies": {
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^7.18.4",
     "typescript": "~5.6.3",
     "vite": "^5.4.10"
   }
