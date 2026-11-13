@@ -1,8 +1,10 @@
-# CollageFab
+# MUI CollageFab
 
 A Material UI floating action button that behaves like a collapsed stack of overlapping circles. Collapsed, a set of `Fab`s sits perfectly stacked and reads as a single button with soft gradient slices at the edges. On hover (mouse) or tap (touch), the parent expands its main-axis extent and the buttons fan out into a row while their CSS masks slide in lockstep with the movement — so the unfold reads as one continuous morph instead of a pop.
 
 The trick is that each child is a full circle clipped by a static linear-gradient mask. As the element translates along the main axis, the `mask-position` is translated back by the same amount, keeping the fade boundary fixed in container space. Because the fade is a gradient rather than a hard clip, the parent's `filter: drop-shadow(...)` traces the soft edges cleanly.
+
+Not affiliated with or endorsed by MUI.
 
 ## Requirements
 
@@ -11,7 +13,7 @@ The trick is that each child is a full circle clipped by a static linear-gradien
 ## Install
 
 ```bash
-npm install @radomir-dev/collagefab @mui/material @emotion/react @emotion/styled
+npm install mui-collage-fab @mui/material @emotion/react @emotion/styled
 ```
 
 `react`, `react-dom`, `@mui/material` and the two emotion packages are peer
@@ -39,12 +41,12 @@ server-side fallback.
 
 The demo and docs are published to GitHub Pages:
 
-1. Demo — <https://www.radomir.dev/collagefab/>
-2. Components API — <https://www.radomir.dev/collagefab/#/docs>
-3. Playground — <https://www.radomir.dev/collagefab/#/playground>
+1. Demo — <https://www.radomir.dev/mui-collage-fab/>
+2. Components API — <https://www.radomir.dev/mui-collage-fab/#/docs>
+3. Playground — <https://www.radomir.dev/mui-collage-fab/#/playground>
 
 `.github/workflows/deploy.yml` builds the project and publishes `dist/` on every
-push to `main`. The production build uses a `/collagefab/` asset base while the
+push to `main`. The production build uses a `/mui-collage-fab/` asset base while the
 dev server stays at the root, so the local URL is unchanged — see
 `vite.config.ts`.
 
@@ -62,7 +64,7 @@ dev server stays at the root, so the local URL is unchanged — see
 ```tsx
 import { Fab } from '@mui/material';
 import { Settings, BugReport, Speed } from '@mui/icons-material';
-import { CollageFab } from '@radomir-dev/collagefab';
+import { CollageFab } from 'mui-collage-fab';
 
 <CollageFab
   direction="left"
