@@ -78,6 +78,7 @@ const codeBlockSx = {
   lineHeight: 1.7,
   color: 'grey.300',
   whiteSpace: 'pre',
+  flexGrow: 1,
 } as const;
 
 function GroupHeading({ children }: { children: React.ReactNode }) {
@@ -233,89 +234,119 @@ export function PlaygroundPage() {
 
       <Grid container spacing={4}>
         <Grid item xs={12} lg={7}>
-          <Paper
-            elevation={0}
-            sx={{
-              p: 3,
-              borderRadius: 4,
-              border: '1px solid',
-              borderColor: 'divider',
-              bgcolor: '#151515',
-              backgroundImage: 'radial-gradient(circle at 50% 0%, #1f1f1f 0%, #151515 70%)',
-            }}
-          >
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', mb: 2 }}>
-              <Typography variant="subtitle2" fontWeight={700} color="grey.300">
-                Preview
-              </Typography>
-              <Typography variant="caption" sx={{ ...mono, color: 'grey.600' }}>
-                {count} × {sizePx}px + {Math.max(count - 1, 0)} × {gap}px = {expandedExtent}px
-              </Typography>
-            </Box>
-
-            <Box
+          <Stack spacing={4} sx={{ height: '100%' }}>
+            <Paper
+              elevation={0}
               sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                minHeight: 460,
-                borderRadius: 3,
-                border: '1px dashed',
-                borderColor: 'divider',
-                bgcolor: '#101010',
                 p: 3,
-                overflow: 'visible',
+                borderRadius: 4,
+                border: '1px solid',
+                borderColor: 'divider',
+                bgcolor: '#151515',
+                backgroundImage: 'radial-gradient(circle at 50% 0%, #1f1f1f 0%, #151515 70%)',
               }}
             >
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', mb: 2 }}>
+                <Typography variant="subtitle2" fontWeight={700} color="grey.300">
+                  Preview
+                </Typography>
+                <Typography variant="caption" sx={{ ...mono, color: 'grey.600' }}>
+                  {count} × {sizePx}px + {Math.max(count - 1, 0)} × {gap}px = {expandedExtent}px
+                </Typography>
+              </Box>
+
               <Box
                 sx={{
                   display: 'flex',
-                  flexDirection: horizontal ? 'row' : 'column',
-                  justifyContent:
-                    direction === 'left' || direction === 'up' ? 'flex-end' : 'flex-start',
                   alignItems: 'center',
-                  width: horizontal ? expandedExtent : sizePx,
-                  height: horizontal ? sizePx : expandedExtent,
+                  justifyContent: 'center',
+                  minHeight: 460,
+                  borderRadius: 3,
+                  border: '1px dashed',
+                  borderColor: 'divider',
+                  bgcolor: '#101010',
+                  p: 3,
                   overflow: 'visible',
                 }}
               >
-                <CollageFab
-                  variant={variant}
-                  direction={direction}
-                  size={size}
-                  gap={gap}
-                  fadeWidth={fadeWidth}
-                  trigger={trigger}
-                  open={open}
-                  onOpen={() => setOpen(true)}
-                  onClose={() => setOpen(false)}
-                  transitionDuration={transitionDuration}
-                  transitionEasing={transitionEasing}
-                  aria-label="CollageFab playground preview"
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: horizontal ? 'row' : 'column',
+                    justifyContent:
+                      direction === 'left' || direction === 'up' ? 'flex-end' : 'flex-start',
+                    alignItems: 'center',
+                    width: horizontal ? expandedExtent : sizePx,
+                    height: horizontal ? sizePx : expandedExtent,
+                    overflow: 'visible',
+                  }}
                 >
-                  {MOCK_TOOLS.slice(0, count).map((tool) => (
-                    <Fab
-                      key={tool.name}
-                      aria-label={tool.name}
-                      sx={{
-                        bgcolor: tool.color,
-                        color: 'white',
-                        '&:hover': { bgcolor: tool.color, filter: 'brightness(1.2)' },
-                      }}
-                    >
-                      {tool.icon}
-                    </Fab>
-                  ))}
-                </CollageFab>
+                  <CollageFab
+                    variant={variant}
+                    direction={direction}
+                    size={size}
+                    gap={gap}
+                    fadeWidth={fadeWidth}
+                    trigger={trigger}
+                    open={open}
+                    onOpen={() => setOpen(true)}
+                    onClose={() => setOpen(false)}
+                    transitionDuration={transitionDuration}
+                    transitionEasing={transitionEasing}
+                    aria-label="CollageFab playground preview"
+                  >
+                    {MOCK_TOOLS.slice(0, count).map((tool) => (
+                      <Fab
+                        key={tool.name}
+                        aria-label={tool.name}
+                        sx={{
+                          bgcolor: tool.color,
+                          color: 'white',
+                          '&:hover': { bgcolor: tool.color, filter: 'brightness(1.2)' },
+                        }}
+                      >
+                        {tool.icon}
+                      </Fab>
+                    ))}
+                  </CollageFab>
+                </Box>
               </Box>
-            </Box>
 
-            <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 2 }}>
-              {trigger === 'manual'
-                ? 'Manual trigger — use the Open switch to expand the group.'
-                : `Trigger: ${trigger} — interact with the group directly in the preview.`}
-            </Typography>
-          </Paper>
+              <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 2 }}>
+                {trigger === 'manual'
+                  ? 'Manual trigger — use the Open switch to expand the group.'
+                  : `Trigger: ${trigger} — interact with the group directly in the preview.`}
+              </Typography>
+            </Paper>
+
+            <Paper
+              elevation={0}
+              sx={{
+                p: 3,
+                borderRadius: 4,
+                border: '1px solid',
+                borderColor: 'divider',
+                bgcolor: '#181818',
+                display: 'flex',
+                flexDirection: 'column',
+                flexGrow: 1,
+              }}
+            >
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1.5 }}>
+                <Typography variant="subtitle2" fontWeight={700} color="grey.300">
+                  JSX
+                </Typography>
+                <Tooltip title={copied ? 'Copied' : 'Copy'}>
+                  <IconButton size="small" onClick={handleCopy} aria-label="Copy JSX">
+                    {copied ? <Check fontSize="small" color="success" /> : <ContentCopy fontSize="small" />}
+                  </IconButton>
+                </Tooltip>
+              </Box>
+              <Box component="pre" sx={codeBlockSx}>
+                <code>{snippet}</code>
+              </Box>
+            </Paper>
+          </Stack>
         </Grid>
 
         <Grid item xs={12} lg={5}>
@@ -327,6 +358,7 @@ export function PlaygroundPage() {
               border: '1px solid',
               borderColor: 'divider',
               background: 'linear-gradient(145deg, #232323 0%, #1a1a1a 100%)',
+              height: '100%',
             }}
           >
             <Stack spacing={2.5} divider={<Divider flexItem />}>
@@ -513,33 +545,6 @@ export function PlaygroundPage() {
                 </Stack>
               </Box>
             </Stack>
-          </Paper>
-        </Grid>
-
-        <Grid item xs={12}>
-          <Paper
-            elevation={0}
-            sx={{
-              p: 3,
-              borderRadius: 4,
-              border: '1px solid',
-              borderColor: 'divider',
-              bgcolor: '#181818',
-            }}
-          >
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1.5 }}>
-              <Typography variant="subtitle2" fontWeight={700} color="grey.300">
-                JSX
-              </Typography>
-              <Tooltip title={copied ? 'Copied' : 'Copy'}>
-                <IconButton size="small" onClick={handleCopy} aria-label="Copy JSX">
-                  {copied ? <Check fontSize="small" color="success" /> : <ContentCopy fontSize="small" />}
-                </IconButton>
-              </Tooltip>
-            </Box>
-            <Box component="pre" sx={codeBlockSx}>
-              <code>{snippet}</code>
-            </Box>
           </Paper>
         </Grid>
       </Grid>
