@@ -31,6 +31,8 @@ const DIRECTION_BUTTON_COUNT = 4;
 const DIRECTION_SIZE = 48;
 const DIRECTION_GAP = 12;
 const DIRECTION_SQUARE = 300;
+const DIRECTION_EXTENT =
+  DIRECTION_BUTTON_COUNT * DIRECTION_SIZE + (DIRECTION_BUTTON_COUNT - 1) * DIRECTION_GAP;
 
 interface RowFit {
   size: number;
@@ -163,9 +165,9 @@ const DIRECTION_DEMOS: DirectionDemo[] = [
   { value: 'down', caption: 'Pins top, fans down', horizontal: false, justifyContent: 'flex-start' },
 ];
 
-// Each axis is a square stage of the same size, side by side, so the pair reads
-// as one symmetric block: two stacked cards on the left, two side-by-side cards
-// on the right, with the overline centred over each square.
+// Each axis is a square stage, side by side, so the pair reads as one symmetric
+// block: two stacked cards on the left, two side-by-side cards on the right, with
+// the overline centred over each square.
 const HORIZONTAL_DEMOS = DIRECTION_DEMOS.filter((demo) => demo.horizontal);
 const VERTICAL_DEMOS = DIRECTION_DEMOS.filter((demo) => !demo.horizontal);
 
@@ -187,6 +189,7 @@ function DirectionCard({ demo }: { demo: DirectionDemo }) {
         sx={{
           flexGrow: 1,
           mt: 1,
+          minHeight: demo.horizontal ? 0 : DIRECTION_EXTENT,
           display: 'flex',
           flexDirection: demo.horizontal ? 'row' : 'column',
           justifyContent: demo.justifyContent,
@@ -225,7 +228,7 @@ function DirectionSquare({
     <Box
       sx={{
         width: DIRECTION_SQUARE,
-        height: DIRECTION_SQUARE,
+        minHeight: DIRECTION_SQUARE,
         display: 'flex',
         flexDirection: 'column',
         flexShrink: 0,
