@@ -1,14 +1,6 @@
 import * as React from 'react';
 import { Box, Container, Fab, Grid, Paper, Typography } from '@mui/material';
-import {
-  Settings,
-  BugReport,
-  Speed,
-  Code,
-  Palette,
-  Api,
-  Terminal,
-} from '@mui/icons-material';
+import { Settings, BugReport, Speed, Code, Palette, Api, Terminal } from '@mui/icons-material';
 import { CollageFab, type CollageFabDirection } from '../components/CollageFab';
 
 const MOCK_TOOLS = [
@@ -160,9 +152,19 @@ interface DirectionDemo {
 
 const DIRECTION_DEMOS: DirectionDemo[] = [
   { value: 'left', caption: 'Pins right, fans left', horizontal: true, justifyContent: 'flex-end' },
-  { value: 'right', caption: 'Pins left, fans right', horizontal: true, justifyContent: 'flex-start' },
+  {
+    value: 'right',
+    caption: 'Pins left, fans right',
+    horizontal: true,
+    justifyContent: 'flex-start',
+  },
   { value: 'up', caption: 'Pins bottom, fans up', horizontal: false, justifyContent: 'flex-end' },
-  { value: 'down', caption: 'Pins top, fans down', horizontal: false, justifyContent: 'flex-start' },
+  {
+    value: 'down',
+    caption: 'Pins top, fans down',
+    horizontal: false,
+    justifyContent: 'flex-start',
+  },
 ];
 
 // Each axis is a square stage, side by side, so the pair reads as one symmetric
@@ -174,7 +176,9 @@ const VERTICAL_DEMOS = DIRECTION_DEMOS.filter((demo) => !demo.horizontal);
 function DirectionCard({ demo }: { demo: DirectionDemo }) {
   return (
     <Paper elevation={3} sx={{ ...CARD_SX, p: 1.5, height: '100%' }}>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 1 }}>
+      <Box
+        sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: 1 }}
+      >
         <Typography variant="h6" fontWeight="bold" color="grey.300">
           {demo.value}
         </Typography>
@@ -271,10 +275,16 @@ export function DemoPage() {
       <Typography variant="h3" fontWeight="900" gutterBottom align="center" color="white">
         Perfected CollageFab
       </Typography>
-      <Typography variant="subtitle1" color="text.secondary" align="center" mb={2} sx={{ maxWidth: 700, mx: 'auto' }}>
+      <Typography
+        variant="subtitle1"
+        color="text.secondary"
+        align="center"
+        mb={2}
+        sx={{ maxWidth: 700, mx: 'auto' }}
+      >
         Mathematical clipping slices overlapping circles. Simultaneous inverse translation of the
-        <strong> WebkitMaskPosition</strong> against the component's <strong>translateX</strong> creates a
-        flawless morphing unfold without bounds popping.
+        <strong> WebkitMaskPosition</strong> against the component's <strong>translateX</strong>{' '}
+        creates a flawless morphing unfold without bounds popping.
       </Typography>
 
       <Grid container spacing={4} justifyContent="center">

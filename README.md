@@ -2,8 +2,8 @@
 
 **[Live demo →](https://radomir.dev/mui-collage-fab/)**
 
-| Collapsed | Expanded |
-| --- | --- |
+| Collapsed                                                                                                                                                                                         | Expanded                                                                                                                                                                                   |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | <img src="https://raw.githubusercontent.com/radomir-dev/mui-collage-fab/main/docs/collagefab-collapsed.png" alt="Three CollageFab buttons collapsed into a single stacked circle" height="104" /> | <img src="https://raw.githubusercontent.com/radomir-dev/mui-collage-fab/main/docs/collagefab-expanded.png" alt="Three CollageFab buttons fanned out into a horizontal row" height="104" /> |
 
 A Material UI floating action button that behaves like a collapsed stack of overlapping circles. Collapsed, a set of `Fab`s sits perfectly stacked and reads as a single button with soft gradient slices at the edges. On hover (mouse) or tap (touch), the parent expands its main-axis extent and the buttons fan out into a row while their CSS masks slide in lockstep with the movement — so the unfold reads as one continuous morph instead of a pop.
@@ -35,15 +35,20 @@ import { CollageFab } from 'mui-collage-fab';
   fadeWidth={12}
   aria-label="Tools"
   slotProps={{
-    item: (ownerState) =>
-      ownerState.isAnchor ? { sx: { outline: '2px solid white' } } : {},
+    item: (ownerState) => (ownerState.isAnchor ? { sx: { outline: '2px solid white' } } : {}),
   }}
 >
   {/* Index 0 is the anchor: it never moves and is never clipped. */}
-  <Fab color="primary"><Settings /></Fab>
-  <Fab color="secondary"><BugReport /></Fab>
-  <Fab color="success"><Speed /></Fab>
-</CollageFab>
+  <Fab color="primary">
+    <Settings />
+  </Fab>
+  <Fab color="secondary">
+    <BugReport />
+  </Fab>
+  <Fab color="success">
+    <Speed />
+  </Fab>
+</CollageFab>;
 ```
 
 Controlled usage, when the open state has to live in your own state:
@@ -58,31 +63,31 @@ const [open, setOpen] = useState(false);
   onClose={() => setOpen(false)}
 >
   {/* children */}
-</CollageFab>
+</CollageFab>;
 ```
 
 ## Props
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `children` | `React.ReactNode` | — | The buttons to stack. Order matters: index 0 is the anchor. |
-| `direction` | `'left' \| 'right' \| 'up' \| 'down'` | `'left'` | Which way the row fans out from the anchor. `'left'` pins the stack to the right edge and expands leftward. |
-| `size` | `'small' \| 'medium' \| 'large' \| number` | `'large'` | Diameter of each button. `small` 40, `medium` 48, `large` 56; numbers are used verbatim. |
-| `variant` | `'circular' \| 'rounded' \| 'square'` | `'circular'` | Shape of each button. `rounded` uses a 25% corner radius, which scales with `size`. For an arbitrary radius, use `slotProps.item.sx`. |
-| `gap` | `number` | `16` | Main-axis gap in pixels between buttons when expanded. |
-| `fadeWidth` | `number` | `12` | Width in pixels of the soft gradient ramp at each slice edge. `0` gives a hard cut. |
-| `trigger` | `'hover' \| 'click' \| 'manual'` | `'hover'` | `'hover'` opens on mouse enter, closes on leave, toggles on touch/pen tap. `'click'` toggles on any click. `'manual'` disables built-in pointer interaction. |
-| `open` | `boolean` | — | Controlled open state. Passing it makes the component controlled. |
-| `defaultOpen` | `boolean` | `false` | Initial state when uncontrolled. |
-| `onOpen` | `(event) => void` | — | Fired on the closed → open transition. |
-| `onClose` | `(event) => void` | — | Fired on the open → closed transition. |
-| `disableClickAway` | `boolean` | `false` | If `true`, an outside press does not close the group. |
-| `transitionDuration` | `number` | `400` | Duration of the morph in milliseconds. |
-| `transitionEasing` | `string` | `'cubic-bezier(0.4, 0, 0.2, 1)'` | Easing of the morph. |
-| `sx` | `SxProps<Theme>` | — | System overrides for the root. |
-| `classes` | `Partial<CollageFabClasses>` | — | Override the `root` / `item` / `expanded` / `collapsed` classes. |
-| `slots` | `Partial<CollageFabSlots>` | — | Replace the `root` or `item` slot component. |
-| `slotProps` | `CollageFabSlotProps` | — | Props for each slot, or a callback `(ownerState) => props`. |
+| Prop                 | Type                                       | Default                          | Description                                                                                                                                                  |
+| -------------------- | ------------------------------------------ | -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `children`           | `React.ReactNode`                          | —                                | The buttons to stack. Order matters: index 0 is the anchor.                                                                                                  |
+| `direction`          | `'left' \| 'right' \| 'up' \| 'down'`      | `'left'`                         | Which way the row fans out from the anchor. `'left'` pins the stack to the right edge and expands leftward.                                                  |
+| `size`               | `'small' \| 'medium' \| 'large' \| number` | `'large'`                        | Diameter of each button. `small` 40, `medium` 48, `large` 56; numbers are used verbatim.                                                                     |
+| `variant`            | `'circular' \| 'rounded' \| 'square'`      | `'circular'`                     | Shape of each button. `rounded` uses a 25% corner radius, which scales with `size`. For an arbitrary radius, use `slotProps.item.sx`.                        |
+| `gap`                | `number`                                   | `16`                             | Main-axis gap in pixels between buttons when expanded.                                                                                                       |
+| `fadeWidth`          | `number`                                   | `12`                             | Width in pixels of the soft gradient ramp at each slice edge. `0` gives a hard cut.                                                                          |
+| `trigger`            | `'hover' \| 'click' \| 'manual'`           | `'hover'`                        | `'hover'` opens on mouse enter, closes on leave, toggles on touch/pen tap. `'click'` toggles on any click. `'manual'` disables built-in pointer interaction. |
+| `open`               | `boolean`                                  | —                                | Controlled open state. Passing it makes the component controlled.                                                                                            |
+| `defaultOpen`        | `boolean`                                  | `false`                          | Initial state when uncontrolled.                                                                                                                             |
+| `onOpen`             | `(event) => void`                          | —                                | Fired on the closed → open transition.                                                                                                                       |
+| `onClose`            | `(event) => void`                          | —                                | Fired on the open → closed transition.                                                                                                                       |
+| `disableClickAway`   | `boolean`                                  | `false`                          | If `true`, an outside press does not close the group.                                                                                                        |
+| `transitionDuration` | `number`                                   | `400`                            | Duration of the morph in milliseconds.                                                                                                                       |
+| `transitionEasing`   | `string`                                   | `'cubic-bezier(0.4, 0, 0.2, 1)'` | Easing of the morph.                                                                                                                                         |
+| `sx`                 | `SxProps<Theme>`                           | —                                | System overrides for the root.                                                                                                                               |
+| `classes`            | `Partial<CollageFabClasses>`               | —                                | Override the `root` / `item` / `expanded` / `collapsed` classes.                                                                                             |
+| `slots`              | `Partial<CollageFabSlots>`                 | —                                | Replace the `root` or `item` slot component.                                                                                                                 |
+| `slotProps`          | `CollageFabSlotProps`                      | —                                | Props for each slot, or a callback `(ownerState) => props`.                                                                                                  |
 
 Remaining `div` attributes, including `aria-label` and `aria-labelledby`, are spread onto the root.
 
@@ -127,11 +132,11 @@ const theme = createTheme({
 Routing is hash-based, so the built site works on any static host without a
 server-side fallback.
 
-| URL | Page |
-| --- | --- |
-| `/` | Demo — the component across button counts and directions. |
-| `#/docs` | Components API reference for `CollageFab`. |
-| anything else | Redirects to `#/`. |
+| URL           | Page                                                      |
+| ------------- | --------------------------------------------------------- |
+| `/`           | Demo — the component across button counts and directions. |
+| `#/docs`      | Components API reference for `CollageFab`.                |
+| anything else | Redirects to `#/`.                                        |
 
 ## Testing
 
@@ -153,15 +158,15 @@ npm install
 npm run dev
 ```
 
-| Command | Description |
-| --- | --- |
-| `npm run dev` | Start the Vite dev server with HMR. |
-| `npm run build` | Type-check with `tsc --noEmit`, then build the demo to `dist/`. |
-| `npm run build:lib` | Build the publishable package to `dist-lib/` (ESM + CJS + types). |
-| `npm run preview` | Serve the production build locally. |
-| `npm test` | Run the Vitest suite (geometry + behaviour in jsdom). |
-| `npm run test:coverage` | Same suite with a v8 coverage report. |
-| `npm run test:e2e` | Build, then run the Playwright checks against `vite preview`. |
+| Command                 | Description                                                       |
+| ----------------------- | ----------------------------------------------------------------- |
+| `npm run dev`           | Start the Vite dev server with HMR.                               |
+| `npm run build`         | Type-check with `tsc --noEmit`, then build the demo to `dist/`.   |
+| `npm run build:lib`     | Build the publishable package to `dist-lib/` (ESM + CJS + types). |
+| `npm run preview`       | Serve the production build locally.                               |
+| `npm test`              | Run the Vitest suite (geometry + behaviour in jsdom).             |
+| `npm run test:coverage` | Same suite with a v8 coverage report.                             |
+| `npm run test:e2e`      | Build, then run the Playwright checks against `vite preview`.     |
 
 Deployment: `.github/workflows/deploy.yml` builds the demo on every push to
 `main` and force-pushes `dist/` to the orphan `gh-pages` branch, which GitHub

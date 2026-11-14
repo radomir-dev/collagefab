@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   workflow_run:
-    workflows: ["Publish to npm"]
+    workflows: ['Publish to npm']
     types: [completed] # rebuild from the bump commit so __APP_VERSION__ matches the release
   workflow_dispatch:
 
