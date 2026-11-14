@@ -53,6 +53,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
+    "build:preview": "tsc --noEmit && vite build --base=\"${SITE_BASE_PATH:?set SITE_BASE_PATH to the deployed preview path}\"",
     "build:lib": "vite build --config vite.lib.config.ts && node scripts/build-dts.mjs",
     "preview": "vite preview",
     "format:check": "prettier --check .",

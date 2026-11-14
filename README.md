@@ -162,6 +162,7 @@ npm run dev
 | ----------------------- | ------------------------------------------------------------------------ |
 | `npm run dev`           | Start the Vite dev server with HMR.                                      |
 | `npm run build`         | Type-check with `tsc --noEmit`, then build the demo to `dist/`.          |
+| `npm run build:preview` | Same, with the asset base taken from `SITE_BASE_PATH`.                   |
 | `npm run build:lib`     | Build the publishable package to `dist-lib/` (ESM + CJS + types).        |
 | `npm run preview`       | Serve the production build locally.                                      |
 | `npm test`              | Run the Vitest suite (geometry + behaviour in jsdom).                    |
@@ -196,9 +197,17 @@ step keeps its output in `node_modules/.cache/doctor/<step>.log`. CI runs
 webkit, and `dependency-review` on pull requests.
 
 Deployment: `.github/workflows/deploy.yml` builds the demo on every push to
-`main` and force-pushes `dist/` to the orphan `gh-pages` branch, which GitHub
-Pages serves. The branch has no shared history with `main`, so it only ever
-holds built files. `.github/workflows/publish.yml` runs `semantic-release` on
+`main` and pushes `dist/` to the `gh-pages` branch, which GitHub Pages serves.
+The branch holds nothing but built files. Every pull request gets that same
+build one directory deeper, at
+`https://radomir.dev/mui-collage-fab/pr-preview/pr-<number>/`:
+`.github/workflows/preview.yml` builds it with `SITE_BASE_PATH` set to that
+path, the preview action writes it to `gh-pages`, comments the URL on the pull
+request, and removes the directory again when the pull request closes. The
+deploy workflow keeps `pr-preview/` intact rather than cleaning the branch, so
+a push to `main` does not take the open previews with it.
+
+`.github/workflows/publish.yml` runs `semantic-release` on
 every push to `main`: conventional commit subjects decide the version (`fix:`
 patch, `feat:` minor, `BREAKING CHANGE:` major), and a release publishes the
 package, writes `CHANGELOG.md`, and commits the bump back with `[skip ci]`.
