@@ -20,10 +20,11 @@ jobs:
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: main
-      - uses: actions/setup-node@v7
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 22
           cache: npm
@@ -33,7 +34,7 @@ jobs:
       # deploy rebases onto what is already there and keeps the umbrella directory, rather
       # than replacing the branch with a tree that holds only the new build.
       - name: Publish the site to the gh-pages branch
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: JamesIves/github-pages-deploy-action@fa24774553152dd7873cd16ebd8d959b010c5445 # v4
         with:
           folder: ./dist
           branch: gh-pages

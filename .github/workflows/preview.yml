@@ -26,11 +26,13 @@ jobs:
     if: github.event.pull_request.head.repo.full_name == github.repository
     steps:
       - name: Check out the code
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
 
       - name: Set up Node.js
         if: github.event.action != 'closed'
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 22
           cache: npm
@@ -51,7 +53,7 @@ jobs:
       # `action` is left at its default, which deploys on every event but `closed` and
       # removes the preview directory on `closed`.
       - name: Deploy or remove the preview
-        uses: rossjrw/pr-preview-action@v1
+        uses: rossjrw/pr-preview-action@873417d2df72380da1f3978378fb58560bcde976 # v1
         with:
           source-dir: ./dist
           umbrella-dir: pr-preview

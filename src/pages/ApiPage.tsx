@@ -127,6 +127,7 @@ function DocTable({
   return (
     <TableContainer
       component={Paper}
+      tabIndex={0}
       elevation={0}
       sx={{ border: '1px solid', borderColor: 'divider', mb: 6 }}
     >
@@ -404,7 +405,7 @@ export function ApiPage() {
       </Box>
 
       <SectionHeading>Usage</SectionHeading>
-      <Box component="pre" sx={{ ...codeBlockSx, mb: 6 }}>
+      <Box tabIndex={0} component="pre" sx={{ ...codeBlockSx, mb: 6 }}>
         <code>{basicUsage}</code>
       </Box>
 
@@ -414,7 +415,7 @@ export function ApiPage() {
         <InlineCode>onOpen</InlineCode> and <InlineCode>onClose</InlineCode> so the parent stays in
         sync.
       </Typography>
-      <Box component="pre" sx={codeBlockSx}>
+      <Box tabIndex={0} component="pre" sx={codeBlockSx}>
         <code>{controlledUsage}</code>
       </Box>
     </Container>
