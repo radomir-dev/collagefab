@@ -2,6 +2,10 @@
 
 **[Live demo →](https://www.radomir.dev/mui-collage-fab/)**
 
+| Collapsed | Expanded |
+| --- | --- |
+| <img src="https://raw.githubusercontent.com/radomir-dev/mui-collage-fab/main/docs/collagefab-collapsed.png" alt="Three CollageFab buttons collapsed into a single stacked circle" width="400" /> | <img src="https://raw.githubusercontent.com/radomir-dev/mui-collage-fab/main/docs/collagefab-expanded.png" alt="Three CollageFab buttons fanned out into a horizontal row" width="560" /> |
+
 A Material UI floating action button that behaves like a collapsed stack of overlapping circles. Collapsed, a set of `Fab`s sits perfectly stacked and reads as a single button with soft gradient slices at the edges. On hover (mouse) or tap (touch), the parent expands its main-axis extent and the buttons fan out into a row while their CSS masks slide in lockstep with the movement — so the unfold reads as one continuous morph instead of a pop.
 
 The trick is that each child is a full circle clipped by a static linear-gradient mask. As the element translates along the main axis, the `mask-position` is translated back by the same amount, keeping the fade boundary fixed in container space. Because the fade is a gradient rather than a hard clip, the parent's `filter: drop-shadow(...)` traces the soft edges cleanly.
