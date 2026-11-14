@@ -6,10 +6,6 @@ The trick is that each child is a full circle clipped by a static linear-gradien
 
 Not affiliated with or endorsed by MUI.
 
-## Requirements
-
-- Node.js 18 or newer.
-
 ## Install
 
 ```bash
@@ -18,46 +14,6 @@ npm install mui-collage-fab @mui/material @emotion/react @emotion/styled
 
 `react`, `react-dom`, `@mui/material` and the two emotion packages are peer
 dependencies, so the package never ships its own copy of React or MUI.
-
-## Getting started
-
-```bash
-npm install
-npm run dev
-```
-
-## Routes
-
-Routing is hash-based, so the built site works on any static host without a
-server-side fallback.
-
-| URL | Page |
-| --- | --- |
-| `/` | Demo — the component across button counts and directions. |
-| `#/docs` | Components API reference for `CollageFab`. |
-| anything else | Redirects to `#/`. |
-
-## Deployment
-
-The demo and docs are published to GitHub Pages:
-
-1. Demo — <https://www.radomir.dev/mui-collage-fab/>
-2. Components API — <https://www.radomir.dev/mui-collage-fab/#/docs>
-3. Playground — <https://www.radomir.dev/mui-collage-fab/#/playground>
-
-`.github/workflows/deploy.yml` builds the project and publishes `dist/` on every
-push to `main`. The production build uses a `/mui-collage-fab/` asset base while the
-dev server stays at the root, so the local URL is unchanged — see
-`vite.config.ts`.
-
-## Scripts
-
-| Command | Description |
-| --- | --- |
-| `npm run dev` | Start the Vite dev server with HMR. |
-| `npm run build` | Type-check with `tsc --noEmit`, then build the demo to `dist/`. |
-| `npm run build:lib` | Build the publishable package to `dist-lib/` (ESM + CJS + types). |
-| `npm run preview` | Serve the production build locally. |
 
 ## Usage
 
@@ -155,3 +111,40 @@ const theme = createTheme({
 5. **Collapsed slices are hidden from assistive technology.** While collapsed, the item wrappers are `aria-hidden` and made non-focusable, so they leave the tab order and the accessibility tree. The root stays focusable: Enter or Space opens the group, focus moves to the first item, and Escape closes it and returns focus to the root.
 6. **With a single child no mask is applied** — it behaves like a plain `Fab`.
 7. **`direction` is physical, not logical.** It is not mirrored under RTL; right-to-left layouts should set `direction="left"` explicitly.
+
+## Demo site
+
+1. Demo — <https://www.radomir.dev/mui-collage-fab/>
+2. Components API — <https://www.radomir.dev/mui-collage-fab/#/docs>
+3. Playground — <https://www.radomir.dev/mui-collage-fab/#/playground>
+
+Routing is hash-based, so the built site works on any static host without a
+server-side fallback.
+
+| URL | Page |
+| --- | --- |
+| `/` | Demo — the component across button counts and directions. |
+| `#/docs` | Components API reference for `CollageFab`. |
+| anything else | Redirects to `#/`. |
+
+## Development
+
+Requires Node.js 18 or newer.
+
+```bash
+npm install
+npm run dev
+```
+
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the Vite dev server with HMR. |
+| `npm run build` | Type-check with `tsc --noEmit`, then build the demo to `dist/`. |
+| `npm run build:lib` | Build the publishable package to `dist-lib/` (ESM + CJS + types). |
+| `npm run preview` | Serve the production build locally. |
+
+Deployment: `.github/workflows/deploy.yml` builds the project and publishes
+`dist/` on every push to `main`, and `.github/workflows/publish.yml` publishes
+the package to npm from a GitHub Release. The production build uses a
+`/mui-collage-fab/` asset base while the dev server stays at the root, so the
+local URL is unchanged — see `vite.config.ts`.
