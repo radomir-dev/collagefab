@@ -6,7 +6,7 @@ const RELEASE_URL = `${__REPO_URL__}/releases/tag/v${__APP_VERSION__}`;
 
 const WATERMARK_SX = {
   position: 'fixed',
-  bottom: 8,
+  bottom: 2,
   fontSize: 11,
   fontFamily: 'monospace',
   letterSpacing: '0.04em',
@@ -41,7 +41,7 @@ export function AuthorBadge() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Author: radomir.dev"
-      sx={{ ...WATERMARK_SX, right: 10 }}
+      sx={{ ...WATERMARK_SX, right: 6 }}
     >
       author: radomir.dev
     </Typography>
@@ -57,7 +57,7 @@ export function VersionBadge() {
       rel="noopener noreferrer"
       aria-label={`Version ${__APP_VERSION__} release on GitHub`}
       title={`v${__APP_VERSION__} release`}
-      sx={{ ...WATERMARK_SX, left: 10 }}
+      sx={{ ...WATERMARK_SX, left: 6 }}
     >
       v{__APP_VERSION__}
     </Typography>
