@@ -11,6 +11,7 @@ const only = onlyArg ? onlyArg.slice('--only='.length).split(',') : null;
 const pkg = JSON.parse(await readFile('package.json', 'utf8'));
 const hasScript = (name) => Boolean(pkg.scripts?.[name]);
 const hasCommand = (command, args) => spawnSync(command, args, { stdio: 'ignore' }).status === 0;
+const hasBinary = (name) => spawnSync('which', [name], { stdio: 'ignore' }).status === 0;
 
 // Steps in the same phase run concurrently; each phase waits for the previous one.
 // `package`, `size` and `e2e` read build output, so they cannot share a phase with `build`/`lib`.
@@ -28,6 +29,19 @@ const STEPS = [
     script: 'check:actions',
     available: () => hasCommand('actionlint', ['-version']) || hasCommand('docker', ['info']),
     reason: 'actionlint and docker not installed',
+  },
+  { name: 'unused', script: 'check:unused' },
+  {
+    name: 'release',
+    script: 'check:release',
+    available: () => Boolean(process.env.GITHUB_TOKEN),
+    reason: 'no GITHUB_TOKEN',
+  },
+  {
+    name: 'actions-security',
+    command: 'zizmor .github/workflows',
+    available: () => hasBinary('zizmor'),
+    reason: 'zizmor not installed',
   },
   { name: 'audit', command: 'npm audit --omit=dev --audit-level=high', slow: true },
   { name: 'package', script: 'check:package', phase: 1, needs: ['lib'] },

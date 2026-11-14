@@ -74,7 +74,14 @@
     "check:size": "size-limit",
     "doctor": "node scripts/doctor.mjs",
     "doctor:fast": "node scripts/doctor.mjs --fast",
+<<<<<<< HEAD
     "check:actions": "node scripts/actionlint.mjs"
+=======
+    "check:actions": "actionlint",
+    "check:unused": "knip",
+    "check:release": "semantic-release --dry-run --no-ci",
+    "check:actions-security": "zizmor .github/workflows"
+>>>>>>> bb2153a (test: add property tests, knip, zizmor, touch coverage and a release dry run)
   },
   "dependencies": {
     "@mui/utils": "^9.5.0"
@@ -130,7 +137,9 @@
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.72.2",
     "vite": "^8.3.4",
-    "vitest": "^5.1.0"
+    "vitest": "^5.1.0",
+    "fast-check": "^4.10.2",
+    "knip": "^6.45.1"
   },
   "size-limit": [
     {

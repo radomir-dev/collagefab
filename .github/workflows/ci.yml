@@ -35,7 +35,15 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Lint workflows
+<<<<<<< HEAD
         run: npm run check:actions
+=======
+        run: docker run --rm -v "$PWD:/repo" -w /repo rhysd/actionlint:1.7.12
+      - uses: zizmorcore/zizmor-action@v0.8.1
+        with:
+          advanced-security: false
+          online-audits: false
+>>>>>>> bb2153a (test: add property tests, knip, zizmor, touch coverage and a release dry run)
       - run: npm run doctor -- --fast
 
   e2e:
