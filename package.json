@@ -29,12 +29,17 @@
   ],
   "main": "./dist-lib/index.cjs",
   "module": "./dist-lib/index.js",
-  "types": "./dist-lib/types/index.d.ts",
+  "types": "./dist-lib/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist-lib/types/index.d.ts",
-      "import": "./dist-lib/index.js",
-      "require": "./dist-lib/index.cjs"
+      "import": {
+        "types": "./dist-lib/index.d.ts",
+        "default": "./dist-lib/index.js"
+      },
+      "require": {
+        "types": "./dist-lib/index.d.cts",
+        "default": "./dist-lib/index.cjs"
+      }
     },
     "./package.json": "./package.json"
   },
@@ -48,7 +53,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "build:lib": "vite build --config vite.lib.config.ts && tsc -p tsconfig.build.json",
+    "build:lib": "vite build --config vite.lib.config.ts && node scripts/build-dts.mjs",
     "preview": "vite preview",
     "format:check": "prettier --check .",
     "format": "prettier --write .",
@@ -61,7 +66,9 @@
     "types:test": "vitest --run --typecheck",
     "fix": "npm run format && npm run lint -- --fix",
     "release": "semantic-release",
-    "prepublishOnly": "npm run build:lib"
+    "prepublishOnly": "npm run build:lib",
+    "check:package": "publint && attw --pack . && node scripts/check-pack.mjs",
+    "check:size": "size-limit"
   },
   "dependencies": {
     "@mui/utils": "^5.15.0"
@@ -108,11 +115,25 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.18.4",
+    "rollup": "^4.68.3",
+    "rollup-plugin-dts": "^6.5.1",
     "semantic-release": "^25.0.9",
     "size-limit": "^14.3.0",
     "typescript": "~5.6.3",
     "typescript-eslint": "^8.72.2",
     "vite": "^8.3.4",
     "vitest": "^5.1.0"
-  }
+  },
+  "size-limit": [
+    {
+      "name": "ESM build",
+      "path": "dist-lib/index.js",
+      "limit": "3.6 kB"
+    },
+    {
+      "name": "CJS build",
+      "path": "dist-lib/index.cjs",
+      "limit": "3.1 kB"
+    }
+  ]
 }
