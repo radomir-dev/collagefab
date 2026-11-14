@@ -172,7 +172,7 @@ npm run dev
 | -------------------------------- | ------------------------------------------------------------------------ |
 | `npm run dev`                    | Start the Vite dev server with HMR.                                      |
 | `npm run build`                  | Type-check with `tsc --noEmit`, then build the demo to `dist/`.          |
-| `npm run build:preview` | Same, with the asset base taken from `SITE_BASE_PATH`.                   |
+| `npm run build:preview`          | Same, with the asset base taken from `SITE_BASE_PATH`.                   |
 | `npm run build:lib`              | Build the publishable package to `dist-lib/` (ESM + CJS + types).        |
 | `npm run preview`                | Serve the production build locally.                                      |
 | `npm test`                       | Run the Vitest suite (geometry + behaviour in jsdom).                    |
