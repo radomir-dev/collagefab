@@ -1,0 +1,10 @@
+rules:
+  dangerous-triggers:
+    ignore:
+      - deploy.yml
+  artipacked:
+    ignore:
+      - publish.yml
+  adhoc-packages:
+    ignore:
+      - publish.yml
