@@ -48,7 +48,7 @@
     "provenance": true
   },
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=22.13.0"
   },
   "scripts": {
     "dev": "vite",
@@ -68,7 +68,10 @@
     "release": "semantic-release",
     "prepublishOnly": "npm run build:lib",
     "check:package": "publint && attw --pack . && node scripts/check-pack.mjs",
-    "check:size": "size-limit"
+    "check:size": "size-limit",
+    "doctor": "node scripts/doctor.mjs",
+    "doctor:fast": "node scripts/doctor.mjs --fast",
+    "check:actions": "actionlint"
   },
   "dependencies": {
     "@mui/utils": "^5.15.0"

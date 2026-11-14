@@ -151,22 +151,49 @@ the same pitch in opposite directions.
 
 ## Development
 
-Requires Node.js 22.12 or newer.
+Requires Node.js 22.13 or newer.
 
 ```bash
 npm install
 npm run dev
 ```
 
-| Command                 | Description                                                       |
-| ----------------------- | ----------------------------------------------------------------- |
-| `npm run dev`           | Start the Vite dev server with HMR.                               |
-| `npm run build`         | Type-check with `tsc --noEmit`, then build the demo to `dist/`.   |
-| `npm run build:lib`     | Build the publishable package to `dist-lib/` (ESM + CJS + types). |
-| `npm run preview`       | Serve the production build locally.                               |
-| `npm test`              | Run the Vitest suite (geometry + behaviour in jsdom).             |
-| `npm run test:coverage` | Same suite with a v8 coverage report.                             |
-| `npm run test:e2e`      | Build, then run the Playwright checks against `vite preview`.     |
+| Command                 | Description                                                              |
+| ----------------------- | ------------------------------------------------------------------------ |
+| `npm run dev`           | Start the Vite dev server with HMR.                                      |
+| `npm run build`         | Type-check with `tsc --noEmit`, then build the demo to `dist/`.          |
+| `npm run build:lib`     | Build the publishable package to `dist-lib/` (ESM + CJS + types).        |
+| `npm run preview`       | Serve the production build locally.                                      |
+| `npm test`              | Run the Vitest suite (geometry + behaviour in jsdom).                    |
+| `npm run test:coverage` | Same suite with a v8 coverage report.                                    |
+| `npm run test:e2e`      | Build, then run the Playwright checks against `vite preview`.            |
+| `npm run types:test`    | Type-check the public API surface (`expectTypeOf` + `@ts-expect-error`). |
+| `npm run check:package` | `publint`, `attw --pack` and a tarball content assertion.                |
+| `npm run check:size`    | Enforce the size-limit budgets for `dist-lib`.                           |
+| `npm run lint`          | ESLint, type-aware, with hooks and jsx-a11y rules.                       |
+| `npm run format:check`  | Prettier check. `npm run format` rewrites in place.                      |
+| `npm run doctor`        | Run every check below in one pass.                                       |
+| `npm run doctor:fast`   | Same, minus the browser suite and `npm audit`.                           |
+
+### Checks
+
+`npm run doctor` (listr2) runs the checks in sequence and keeps going after a
+failure, so one pass reports everything that is broken:
+
+1. `format:check`, `lint`, `typecheck` — style and static analysis.
+2. `types:test` — the public prop unions and slot overrides, pinned by type tests.
+3. `test:coverage` — Vitest with coverage thresholds of 85 statements / 75 branches.
+4. `build`, `build:lib` — demo and library bundles.
+5. `check:package` — `publint`, `attw --pack` and a tarball assertion, so the
+   published `exports`/types map and file list stay correct.
+6. `check:size` — size-limit budgets for the ESM and CJS bundles.
+7. `docs:check`, `actionlint`, `audit` and `test:e2e` — skipped with a reason when
+   the script exists but the tool is missing (for example `actionlint` locally).
+
+`--fast` drops `test:e2e` and `audit`, `--only=lint,unit` runs a subset. Each failed
+step keeps its output in `node_modules/.cache/doctor/<step>.log`. CI runs
+`npm run doctor -- --fast` plus a separate e2e job covering chromium, firefox and
+webkit, and `dependency-review` on pull requests.
 
 Deployment: `.github/workflows/deploy.yml` builds the demo on every push to
 `main` and force-pushes `dist/` to the orphan `gh-pages` branch, which GitHub
