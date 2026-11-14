@@ -7,7 +7,38 @@ updates:
       day: monday
     open-pull-requests-limit: 5
     groups:
-      npm-minor-patch:
+      mui:
+        patterns: ['@mui/*', '@emotion/*']
+        update-types: ['minor', 'patch']
+      react:
+        patterns: ['react', 'react-dom', 'react-router-dom', '@types/react', '@types/react-dom']
+        update-types: ['minor', 'patch']
+      build:
+        patterns: ['vite', '@vitejs/plugin-react', 'rollup', 'rollup-plugin-dts']
+        update-types: ['minor', 'patch']
+      testing:
+        patterns:
+          - 'vitest'
+          - '@vitest/*'
+          - '@testing-library/*'
+          - '@playwright/test'
+          - 'jsdom'
+          - 'fast-check'
+          - 'jest-axe'
+          - '@types/jest-axe'
+          - '@axe-core/playwright'
+        update-types: ['minor', 'patch']
+      lint:
+        patterns:
+          ['eslint', '@eslint/js', 'typescript-eslint', 'eslint-*', 'prettier', 'knip', 'globals']
+        update-types: ['minor', 'patch']
+      types:
+        patterns: ['typescript', '@types/node']
+        update-types: ['minor', 'patch']
+      release:
+        patterns: ['semantic-release', '@semantic-release/*']
+        update-types: ['minor', 'patch']
+      tooling:
         patterns: ['*']
         update-types: ['minor', 'patch']
     cooldown:
@@ -23,7 +54,7 @@ updates:
       day: monday
     open-pull-requests-limit: 5
     groups:
-      actions-minor-patch:
+      actions:
         patterns: ['*']
         update-types: ['minor', 'patch']
     cooldown:
