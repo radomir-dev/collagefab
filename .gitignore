@@ -9,6 +9,3 @@ dist-ssr
 
 .cortexkit
 .playwright-mcp
-coverage
-test-results
-playwright-report

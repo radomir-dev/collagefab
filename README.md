@@ -63,37 +63,42 @@ const [open, setOpen] = useState(false);
 
 ## Props
 
+<!-- api:props:start -->
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children` | `React.ReactNode` | — | The buttons to stack. Order matters: index 0 is the anchor. |
-| `direction` | `'left' \| 'right' \| 'up' \| 'down'` | `'left'` | Which way the row fans out from the anchor. `'left'` pins the stack to the right edge and expands leftward. |
-| `size` | `'small' \| 'medium' \| 'large' \| number` | `'large'` | Diameter of each button. `small` 40, `medium` 48, `large` 56; numbers are used verbatim. |
-| `variant` | `'circular' \| 'rounded' \| 'square'` | `'circular'` | Shape of each button. `rounded` uses a 25% corner radius, which scales with `size`. For an arbitrary radius, use `slotProps.item.sx`. |
-| `gap` | `number` | `16` | Main-axis gap in pixels between buttons when expanded. |
-| `fadeWidth` | `number` | `12` | Width in pixels of the soft gradient ramp at each slice edge. `0` gives a hard cut. |
-| `trigger` | `'hover' \| 'click' \| 'manual'` | `'hover'` | `'hover'` opens on mouse enter, closes on leave, toggles on touch/pen tap. `'click'` toggles on any click. `'manual'` disables built-in pointer interaction. |
-| `open` | `boolean` | — | Controlled open state. Passing it makes the component controlled. |
-| `defaultOpen` | `boolean` | `false` | Initial state when uncontrolled. |
-| `onOpen` | `(event) => void` | — | Fired on the closed → open transition. |
-| `onClose` | `(event) => void` | — | Fired on the open → closed transition. |
-| `disableClickAway` | `boolean` | `false` | If `true`, an outside press does not close the group. |
-| `transitionDuration` | `number` | `400` | Duration of the morph in milliseconds. |
+| `children` | `React.ReactNode` | — | The buttons to stack. Every valid element is wrapped in a masked slot shaped by `variant`. Order matters: index 0 is the anchor, the rest fan out along `direction`. |
+| `direction` | `'left' \| 'right' \| 'up' \| 'down'` | `'left'` | The axis the buttons fan out on, starting from the anchor child. `left` matches the original right-anchored behaviour. |
+| `size` | `'small' \| 'medium' \| 'large' \| number` | `'large'` | Diameter of every button. Named sizes resolve to small 40px, medium 48px, large 56px; numeric values are used verbatim. |
+| `variant` | `'circular' \| 'rounded' \| 'square'` | `'circular'` | The shape of every button. `'circular'` clips each slice to a circle, `'rounded'` to a rounded square and `'square'` to a sharp-cornered square. The mask still slices the silhouette along the main axis, so the stack reads as one shape when collapsed and as separate shapes when expanded. |
+| `gap` | `number` | `16` | Main-axis gap in pixels between two buttons when expanded. |
+| `fadeWidth` | `number` | `12` | Width in pixels of the soft cut line between two slices. |
+| `trigger` | `'hover' \| 'click' \| 'manual'` | `'hover'` | How the group reacts to pointers. `'hover'` opens on mouse enter, closes on mouse leave and toggles on touch or pen tap; `'click'` toggles on any click; `'manual'` disables all built-in pointer interaction. |
+| `open` | `boolean` | — | If `true`, the group is expanded. Use it to control the component. |
+| `defaultOpen` | `boolean` | `false` | If `true`, the group is expanded by default (uncontrolled). |
+| `onOpen` | `(event: React.SyntheticEvent) => void` | — | Callback fired when the group is expanded. |
+| `onClose` | `(event: React.SyntheticEvent) => void` | — | Callback fired when the group is collapsed. |
+| `disableClickAway` | `boolean` | `false` | If `true`, the group does not collapse when the user clicks away from it. |
+| `transitionDuration` | `number` | `400` | Duration of the morph, in milliseconds. |
 | `transitionEasing` | `string` | `'cubic-bezier(0.4, 0, 0.2, 1)'` | Easing of the morph. |
-| `sx` | `SxProps<Theme>` | — | System overrides for the root. |
-| `classes` | `Partial<CollageFabClasses>` | — | Override the `root` / `item` / `expanded` / `collapsed` classes. |
-| `slots` | `Partial<CollageFabSlots>` | — | Replace the `root` or `item` slot component. |
-| `slotProps` | `CollageFabSlotProps` | — | Props for each slot, or a callback `(ownerState) => props`. |
-
-Remaining `div` attributes, including `aria-label` and `aria-labelledby`, are spread onto the root.
+| `sx` | `SxProps<Theme>` | — | System prop that defines system overrides as well as additional CSS styles. |
+| `classes` | `Partial<CollageFabClasses>` | — | Override or extend the styles applied to the component. |
+| `slots` | `CollageFabSlots` | — | Custom components for the `root` and `item` slots. |
+| `slotProps` | `{ root?, item? }` | — | Props for each slot. `slotProps.item` accepts either a props object or an `(ownerState) => props` callback, which is the per-child escape hatch. |
+| `...divProps` | `React.HTMLAttributes<HTMLDivElement>` | — | The remaining div attributes are spread onto the root. |
+<!-- api:props:end -->
 
 ## Slots
 
-1. `root` — the animated container. Owns the anchor-edge alignment, the animated main-axis extent, and the single `drop-shadow` filter. A replacement must forward `ref`, because the `ClickAwayListener` needs it.
-2. `item` — one masked circular wrapper per child. `slotProps.item` accepts a props object or a callback `(ownerState) => props`, which is the per-child escape hatch: switch on `ownerState.index` or `ownerState.isAnchor` to style an individual button.
+<!-- api:slots:start -->
+1. `root` — The animated container. A replacement must forward `ref`, which `ClickAwayListener` needs.
+2. `item` — One masked wrapper per child, shaped by `variant`.
+<!-- api:slots:end -->
 
 ## ownerState
 
-`CollageFabOwnerState` carries `open`, `direction`, `trigger`, `size` (resolved pixels), `gap`, `fadeWidth`, `count`, `transitionDuration` and `transitionEasing`. `CollageFabItemOwnerState` adds `index` and `isAnchor`.
+<!-- api:owner-state:start -->
+`CollageFabOwnerState` carries `open`, `direction`, `trigger`, `size`, `variant`, `cornerRadius`, `gap`, `fadeWidth`, `count`, `transitionDuration` and `transitionEasing`. `CollageFabItemOwnerState` adds `index`, `isAnchor` and `geometry`.
+<!-- api:owner-state:end -->
 
 Theme-level defaults and overrides work through the `MuiCollageFab` component key:
 
@@ -133,20 +138,9 @@ server-side fallback.
 | `#/docs` | Components API reference for `CollageFab`. |
 | anything else | Redirects to `#/`. |
 
-## Testing
-
-`src/components/collageFabGeometry.ts` holds the mask and translation maths, so it can be
-tested without a DOM: `tests/geometry.test.ts` asserts the translate offsets, the mask axis
-and stop order, and the invariant that a slice's mask position and translation cancel out —
-the cut line stays pinned while the button travels. `tests/behaviour.test.tsx` runs the
-component in jsdom for triggers, keyboard flow, controlled state and click-away.
-`e2e/collagefab.spec.ts` is the browser-level check, because jsdom cannot compute masks:
-it reads the real `transform` and `mask-position` after hovering and verifies they move by
-the same pitch in opposite directions.
-
 ## Development
 
-Requires Node.js 22.12 or newer.
+Requires Node.js 18 or newer.
 
 ```bash
 npm install
@@ -158,10 +152,18 @@ npm run dev
 | `npm run dev` | Start the Vite dev server with HMR. |
 | `npm run build` | Type-check with `tsc --noEmit`, then build the demo to `dist/`. |
 | `npm run build:lib` | Build the publishable package to `dist-lib/` (ESM + CJS + types). |
+| `npm run docs` | Regenerate the generated blocks in this file from the component source. |
+| `npm run docs:check` | Fail if those blocks are stale (runs in CI). |
 | `npm run preview` | Serve the production build locally. |
-| `npm test` | Run the Vitest suite (geometry + behaviour in jsdom). |
-| `npm run test:coverage` | Same suite with a v8 coverage report. |
-| `npm run test:e2e` | Build, then run the Playwright checks against `vite preview`. |
+
+The Components API page and the Props / Slots / ownerState sections above are
+generated from `src/components/CollageFab.tsx`: TypeDoc reads the TSDoc and the
+type declarations while the site builds, and the default values come from
+`COLLAGE_FAB_DEFAULTS` in `src/components/collageFabDefaults.ts`. The page itself
+is never edited by hand. A public prop, ownerState field or slot without a TSDoc
+docblock fails the build, and changing a default means changing the constant in
+that file — never a comment. The `docs` scripts run TypeScript directly, so they
+need Node 22; everything else works on Node 18.
 
 Deployment: `.github/workflows/deploy.yml` builds the demo on every push to
 `main` and force-pushes `dist/` to the orphan `gh-pages` branch, which GitHub
