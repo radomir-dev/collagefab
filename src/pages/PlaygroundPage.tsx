@@ -178,8 +178,17 @@ export function PlaygroundPage() {
   const [copied, setCopied] = React.useState(false);
 
   const sizePx = SIZE_PX[size];
-  const horizontal = direction === 'left' || direction === 'right';
   const expandedExtent = count * sizePx + Math.max(count - 1, 0) * gap;
+  // The stage keeps a fixed size and the anchor sits at its centre, so `gap` grows the
+  // fan outwards instead of dragging the whole group across the preview.
+  const anchorCorner =
+    direction === 'left'
+      ? { right: 0, top: 0 }
+      : direction === 'right'
+        ? { left: 0, top: 0 }
+        : direction === 'up'
+          ? { bottom: 0, left: 0 }
+          : { top: 0, left: 0 };
 
   const snippet = React.useMemo(
     () =>
@@ -278,21 +287,21 @@ export function PlaygroundPage() {
                   bgcolor: '#101010',
                   p: 3,
                   overflow: 'visible',
+                  position: 'relative',
                 }}
               >
                 <Box
                   sx={{
-                    display: 'flex',
-                    flexDirection: horizontal ? 'row' : 'column',
-                    justifyContent:
-                      direction === 'left' || direction === 'up' ? 'flex-end' : 'flex-start',
-                    alignItems: 'center',
-                    width: horizontal ? expandedExtent : sizePx,
-                    height: horizontal ? sizePx : expandedExtent,
-                    overflow: 'visible',
+                    position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    width: sizePx,
+                    height: sizePx,
+                    transform: 'translate(-50%, -50%)',
                   }}
                 >
                   <CollageFab
+                    sx={{ position: 'absolute', ...anchorCorner }}
                     variant={variant}
                     direction={direction}
                     size={size}
