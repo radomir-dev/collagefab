@@ -29,12 +29,17 @@
   ],
   "main": "./dist-lib/index.cjs",
   "module": "./dist-lib/index.js",
-  "types": "./dist-lib/types/index.d.ts",
+  "types": "./dist-lib/index.d.ts",
   "exports": {
     ".": {
-      "types": "./dist-lib/types/index.d.ts",
-      "import": "./dist-lib/index.js",
-      "require": "./dist-lib/index.cjs"
+      "import": {
+        "types": "./dist-lib/index.d.ts",
+        "default": "./dist-lib/index.js"
+      },
+      "require": {
+        "types": "./dist-lib/index.d.cts",
+        "default": "./dist-lib/index.cjs"
+      }
     },
     "./package.json": "./package.json"
   },
@@ -43,19 +48,30 @@
     "provenance": true
   },
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=22.13.0"
   },
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
-    "build:lib": "vite build --config vite.lib.config.ts && tsc -p tsconfig.build.json",
-    "prepublishOnly": "npm run build:lib",
+    "build:lib": "vite build --config vite.lib.config.ts && node scripts/build-dts.mjs",
     "preview": "vite preview",
+    "format:check": "prettier --check .",
+    "format": "prettier --write .",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "npm run build && playwright test",
-    "release": "semantic-release"
+    "types:test": "vitest --run --typecheck",
+    "fix": "npm run format && npm run lint -- --fix",
+    "release": "semantic-release",
+    "prepublishOnly": "npm run build:lib",
+    "check:package": "publint && attw --pack . && node scripts/check-pack.mjs",
+    "check:size": "size-limit",
+    "doctor": "node scripts/doctor.mjs",
+    "doctor:fast": "node scripts/doctor.mjs --fast",
+    "check:actions": "actionlint"
   },
   "dependencies": {
     "@mui/utils": "^5.15.0"
@@ -68,8 +84,11 @@
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@axe-core/playwright": "^4.14.0",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
+    "@eslint/js": "^9.39.5",
     "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.16.7",
     "@playwright/test": "^1.65.1",
@@ -77,20 +96,47 @@
     "@semantic-release/git": "^11.0.1",
     "@semantic-release/github": "^12.0.11",
     "@semantic-release/npm": "^13.2.0",
+    "@size-limit/file": "^14.3.0",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.10",
+    "@types/jest-axe": "^3.5.9",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^6.3.0",
     "@vitest/coverage-v8": "^5.1.0",
+    "eslint": "^9.39.5",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.14.0",
+    "jest-axe": "^11.0.0",
     "jsdom": "^31.0.1",
+    "listr2": "^11.4.1",
+    "prettier": "^3.10.1",
+    "publint": "^0.3.25",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.18.4",
+    "rollup": "^4.68.3",
+    "rollup-plugin-dts": "^6.5.1",
     "semantic-release": "^25.0.9",
-    "typescript": "~7.0.2",
+    "size-limit": "^14.3.0",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.72.2",
     "vite": "^8.3.4",
     "vitest": "^5.1.0"
-  }
+  },
+  "size-limit": [
+    {
+      "name": "ESM build",
+      "path": "dist-lib/index.js",
+      "limit": "3.6 kB"
+    },
+    {
+      "name": "CJS build",
+      "path": "dist-lib/index.cjs",
+      "limit": "3.1 kB"
+    }
+  ]
 }

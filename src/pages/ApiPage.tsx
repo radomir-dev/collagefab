@@ -139,7 +139,8 @@ const PROPS: PropDoc[] = [
     name: 'aria-label',
     type: 'string',
     default: '—',
-    description: 'Accessible name for the root. Provide it (or aria-labelledby) since the root has role="group".',
+    description:
+      'Accessible name for the root. Provide it (or aria-labelledby) since the root has role="group".',
   },
   {
     name: 'aria-labelledby',
@@ -181,24 +182,53 @@ interface FieldDoc {
 
 const OWNER_STATE: FieldDoc[] = [
   { name: 'open', type: 'boolean', description: 'Whether the group is currently expanded.' },
-  { name: 'direction', type: "'left' | 'right' | 'up' | 'down'", description: 'The resolved fan-out direction.' },
-  { name: 'trigger', type: "'hover' | 'click' | 'manual'", description: 'The resolved pointer trigger mode.' },
-  { name: 'size', type: 'number', description: 'The button diameter in pixels, after resolving the named size.' },
-  { name: 'variant', type: "'circular' | 'rounded' | 'square'", description: 'The resolved shape of every button.' },
+  {
+    name: 'direction',
+    type: "'left' | 'right' | 'up' | 'down'",
+    description: 'The resolved fan-out direction.',
+  },
+  {
+    name: 'trigger',
+    type: "'hover' | 'click' | 'manual'",
+    description: 'The resolved pointer trigger mode.',
+  },
+  {
+    name: 'size',
+    type: 'number',
+    description: 'The button diameter in pixels, after resolving the named size.',
+  },
+  {
+    name: 'variant',
+    type: "'circular' | 'rounded' | 'square'",
+    description: 'The resolved shape of every button.',
+  },
   {
     name: 'cornerRadius',
     type: 'number | string',
-    description: 'The corner radius resolved from variant, applied to every item wrapper and inherited by its child.',
+    description:
+      'The corner radius resolved from variant, applied to every item wrapper and inherited by its child.',
   },
   { name: 'gap', type: 'number', description: 'The main-axis gap in pixels.' },
   { name: 'fadeWidth', type: 'number', description: 'The fade width in pixels.' },
-  { name: 'count', type: 'number', description: 'The number of valid children currently rendered.' },
-  { name: 'transitionDuration', type: 'number', description: 'The morph duration in milliseconds.' },
+  {
+    name: 'count',
+    type: 'number',
+    description: 'The number of valid children currently rendered.',
+  },
+  {
+    name: 'transitionDuration',
+    type: 'number',
+    description: 'The morph duration in milliseconds.',
+  },
   { name: 'transitionEasing', type: 'string', description: 'The morph easing.' },
 ];
 
 const ITEM_OWNER_STATE: FieldDoc[] = [
-  { name: 'index', type: 'number', description: 'The position of the child in the stack. 0 is the anchor.' },
+  {
+    name: 'index',
+    type: 'number',
+    description: 'The position of the child in the stack. 0 is the anchor.',
+  },
   { name: 'isAnchor', type: 'boolean', description: 'True for the anchor child (index 0).' },
   {
     name: 'geometry',
@@ -222,10 +252,10 @@ const DIRECTIONS: DirectionDoc[] = [
 ];
 
 const BEHAVIOR_NOTES = [
-  "With trigger=\"hover\", the group opens on mouse enter and closes on mouse leave; on touch and pen it toggles on tap.",
-  "With trigger=\"click\", the group toggles on any click, regardless of pointer type.",
-  "With trigger=\"manual\", all built-in pointer interaction is disabled — drive it through the open prop instead.",
-  "Controlled (open) and uncontrolled (defaultOpen) modes are supported; onOpen and onClose fire on every transition.",
+  'With trigger="hover", the group opens on mouse enter and closes on mouse leave; on touch and pen it toggles on tap.',
+  'With trigger="click", the group toggles on any click, regardless of pointer type.',
+  'With trigger="manual", all built-in pointer interaction is disabled — drive it through the open prop instead.',
+  'Controlled (open) and uncontrolled (defaultOpen) modes are supported; onOpen and onClose fire on every transition.',
   'Clicking away closes the group unless disableClickAway is set. No click-away listener is attached in manual mode.',
   'Escape collapses the group.',
   'Keyboard: while collapsed the root is focusable; Enter or Space opens it and moves focus to the first item; Escape collapses it and returns focus to the root.',
@@ -330,9 +360,21 @@ function SectionHeading({ children }: { children: ReactNode }) {
   );
 }
 
-function DocTable({ columns, rows, minWidth = 640 }: { columns: DocColumn[]; rows: DocRow[]; minWidth?: number }) {
+function DocTable({
+  columns,
+  rows,
+  minWidth = 640,
+}: {
+  columns: DocColumn[];
+  rows: DocRow[];
+  minWidth?: number;
+}) {
   return (
-    <TableContainer component={Paper} elevation={0} sx={{ border: '1px solid', borderColor: 'divider', mb: 6 }}>
+    <TableContainer
+      component={Paper}
+      elevation={0}
+      sx={{ border: '1px solid', borderColor: 'divider', mb: 6 }}
+    >
       <Table size="small" sx={{ minWidth }}>
         <TableHead>
           <TableRow sx={{ '& th': { bgcolor: '#181818', borderBottomColor: 'divider' } }}>
@@ -345,7 +387,10 @@ function DocTable({ columns, rows, minWidth = 640 }: { columns: DocColumn[]; row
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.key} sx={{ '& td': { borderBottomColor: 'divider', verticalAlign: 'top' } }}>
+            <TableRow
+              key={row.key}
+              sx={{ '& td': { borderBottomColor: 'divider', verticalAlign: 'top' } }}
+            >
               {columns.map((column) => (
                 <TableCell
                   key={column.key}
@@ -429,21 +474,31 @@ export function ApiPage() {
       <Typography variant="h3" fontWeight="900" gutterBottom align="center" color="white">
         Components API
       </Typography>
-      <Typography variant="subtitle1" color="text.secondary" align="center" mb={8} sx={{ maxWidth: 700, mx: 'auto' }}>
-        Reference for the exported <strong>CollageFab</strong> component (v2): its props, slots, ownerState and runtime
-        behavior.
+      <Typography
+        variant="subtitle1"
+        color="text.secondary"
+        align="center"
+        mb={8}
+        sx={{ maxWidth: 700, mx: 'auto' }}
+      >
+        Reference for the exported <strong>CollageFab</strong> component (v2): its props, slots,
+        ownerState and runtime behavior.
       </Typography>
 
       <Typography variant="h4" fontWeight="bold" color="white" gutterBottom>
         CollageFab
       </Typography>
       <Typography color="text.secondary" sx={{ maxWidth: 780, mb: 1 }}>
-        A floating action button that stacks several children into a single shape and unfolds them along a configurable
-        direction on interaction. The root animates its own main-axis extent and applies one shared drop shadow, while
-        each child is clipped by a moving gradient mask.
+        A floating action button that stacks several children into a single shape and unfolds them
+        along a configurable direction on interaction. The root animates its own main-axis extent
+        and applies one shared drop shadow, while each child is clipped by a moving gradient mask.
       </Typography>
       <Typography color="text.secondary" sx={{ mb: 5 }}>
-        Import it from <Box component="span" sx={{ ...mono, color: 'grey.300' }}>./components/CollageFab</Box>.
+        Import it from{' '}
+        <Box component="span" sx={{ ...mono, color: 'grey.300' }}>
+          ./components/CollageFab
+        </Box>
+        .
       </Typography>
 
       <Divider sx={{ mb: 5 }} />
@@ -451,11 +506,20 @@ export function ApiPage() {
       <SectionHeading>Props</SectionHeading>
       <DocTable columns={propColumns} rows={propRows} />
       <Typography color="text.secondary" sx={{ maxWidth: 780, mb: 6 }}>
-        <Box component="span" sx={{ ...mono, color: 'grey.300' }}>variant</Box> covers the three common shapes. For any
-        other corner radius, override the item wrapper through{' '}
-        <Box component="span" sx={{ ...mono, color: 'grey.300' }}>slotProps.item.sx</Box> — for example{' '}
-        <Box component="span" sx={{ ...mono, color: 'grey.300' }}>{'{ borderRadius: 8 }'}</Box>. There is no separate
-        radius prop, and every child inherits the wrapper radius, so the whole stack keeps a single silhouette.
+        <Box component="span" sx={{ ...mono, color: 'grey.300' }}>
+          variant
+        </Box>{' '}
+        covers the three common shapes. For any other corner radius, override the item wrapper
+        through{' '}
+        <Box component="span" sx={{ ...mono, color: 'grey.300' }}>
+          slotProps.item.sx
+        </Box>{' '}
+        — for example{' '}
+        <Box component="span" sx={{ ...mono, color: 'grey.300' }}>
+          {'{ borderRadius: 8 }'}
+        </Box>
+        . There is no separate radius prop, and every child inherits the wrapper radius, so the
+        whole stack keeps a single silhouette.
       </Typography>
 
       <SectionHeading>Slots</SectionHeading>
@@ -463,27 +527,40 @@ export function ApiPage() {
 
       <SectionHeading>ownerState</SectionHeading>
       <Typography color="text.secondary" sx={{ maxWidth: 780, mb: 2 }}>
-        <Box component="span" sx={{ ...mono, color: 'grey.300' }}>CollageFabOwnerState</Box> is passed to the root slot
-        and to every slotProps resolver.
+        <Box component="span" sx={{ ...mono, color: 'grey.300' }}>
+          CollageFabOwnerState
+        </Box>{' '}
+        is passed to the root slot and to every slotProps resolver.
       </Typography>
       <DocTable columns={fieldColumns} rows={ownerStateRows} minWidth={620} />
       <Typography color="text.secondary" sx={{ maxWidth: 780, mb: 2 }}>
-        <Box component="span" sx={{ ...mono, color: 'grey.300' }}>CollageFabItemOwnerState</Box> extends it for the item
-        slot:
+        <Box component="span" sx={{ ...mono, color: 'grey.300' }}>
+          CollageFabItemOwnerState
+        </Box>{' '}
+        extends it for the item slot:
       </Typography>
       <DocTable columns={fieldColumns} rows={itemOwnerStateRows} minWidth={620} />
 
       <SectionHeading>Direction</SectionHeading>
       <DocTable columns={directionColumns} rows={directionRows} minWidth={560} />
       <Typography color="text.secondary" sx={{ maxWidth: 780, mb: 1.5 }}>
-        The default is <Box component="span" sx={{ ...mono, color: 'grey.300' }}>'left'</Box> because it matches the
-        original right-anchored behaviour — the group grows leftward from its anchor. This surprises people who assume
-        rightward expansion.
+        The default is{' '}
+        <Box component="span" sx={{ ...mono, color: 'grey.300' }}>
+          'left'
+        </Box>{' '}
+        because it matches the original right-anchored behaviour — the group grows leftward from its
+        anchor. This surprises people who assume rightward expansion.
       </Typography>
       <Typography color="text.secondary" sx={{ maxWidth: 780, mb: 6 }}>
-        The gradient keyword stays <Box component="span" sx={{ ...mono, color: 'grey.300' }}>to right</Box> for the
-        horizontal directions and <Box component="span" sx={{ ...mono, color: 'grey.300' }}>to bottom</Box> for the
-        vertical ones in all four cases; only the order of the color stops flips.
+        The gradient keyword stays{' '}
+        <Box component="span" sx={{ ...mono, color: 'grey.300' }}>
+          to right
+        </Box>{' '}
+        for the horizontal directions and{' '}
+        <Box component="span" sx={{ ...mono, color: 'grey.300' }}>
+          to bottom
+        </Box>{' '}
+        for the vertical ones in all four cases; only the order of the color stops flips.
       </Typography>
 
       <SectionHeading>Behavior</SectionHeading>
@@ -518,15 +595,16 @@ export function ApiPage() {
           Pin the anchor edge in the parent
         </Typography>
         <Typography color="grey.300" sx={{ mb: 2 }}>
-          The root animates its own main-axis extent from a single button to the full row. If the parent lets it sit at
-          the start of the axis, the group grows in place instead of fanning out. Pin the anchor edge in the parent:
+          The root animates its own main-axis extent from a single button to the full row. If the
+          parent lets it sit at the start of the axis, the group grows in place instead of fanning
+          out. Pin the anchor edge in the parent:
         </Typography>
         <Box component="ul" sx={{ pl: 3, m: 0 }}>
           {[
-            { css: 'justify-content: flex-end', dir: "direction=\"left\"" },
-            { css: 'justify-content: flex-start', dir: "direction=\"right\"" },
-            { css: 'align-items: flex-end', dir: "direction=\"up\"" },
-            { css: 'align-items: flex-start', dir: "direction=\"down\"" },
+            { css: 'justify-content: flex-end', dir: 'direction="left"' },
+            { css: 'justify-content: flex-start', dir: 'direction="right"' },
+            { css: 'align-items: flex-end', dir: 'direction="up"' },
+            { css: 'align-items: flex-start', dir: 'direction="down"' },
           ].map((item) => (
             <Typography
               key={item.css}
@@ -534,8 +612,14 @@ export function ApiPage() {
               color="grey.300"
               sx={{ mb: 1, pl: 0.5, '&::marker': { color: 'grey.600' } }}
             >
-              <Box component="span" sx={{ ...mono, color: 'grey.300' }}>{item.css}</Box> for{' '}
-              <Box component="span" sx={{ ...mono, color: 'primary.light' }}>{item.dir}</Box>.
+              <Box component="span" sx={{ ...mono, color: 'grey.300' }}>
+                {item.css}
+              </Box>{' '}
+              for{' '}
+              <Box component="span" sx={{ ...mono, color: 'primary.light' }}>
+                {item.dir}
+              </Box>
+              .
             </Typography>
           ))}
         </Box>
@@ -548,9 +632,19 @@ export function ApiPage() {
 
       <SectionHeading>Controlled usage</SectionHeading>
       <Typography color="text.secondary" sx={{ maxWidth: 780, mb: 2 }}>
-        Pass <Box component="span" sx={{ ...mono, color: 'grey.300' }}>open</Box> to own the state. The internal
-        transitions still fire <Box component="span" sx={{ ...mono, color: 'grey.300' }}>onOpen</Box> and{' '}
-        <Box component="span" sx={{ ...mono, color: 'grey.300' }}>onClose</Box> so the parent stays in sync.
+        Pass{' '}
+        <Box component="span" sx={{ ...mono, color: 'grey.300' }}>
+          open
+        </Box>{' '}
+        to own the state. The internal transitions still fire{' '}
+        <Box component="span" sx={{ ...mono, color: 'grey.300' }}>
+          onOpen
+        </Box>{' '}
+        and{' '}
+        <Box component="span" sx={{ ...mono, color: 'grey.300' }}>
+          onClose
+        </Box>{' '}
+        so the parent stays in sync.
       </Typography>
       <Box component="pre" sx={codeBlockSx}>
         <code>{CONTROLLED_EXAMPLE}</code>

@@ -102,7 +102,9 @@ function ControlRow({
 }) {
   return (
     <Box>
-      <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', mb: 0.75 }}>
+      <Box
+        sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', mb: 0.75 }}
+      >
         <Typography variant="body2" fontWeight={600} color="grey.200">
           {label}
         </Typography>
@@ -248,7 +250,14 @@ export function PlaygroundPage() {
                 backgroundImage: 'radial-gradient(circle at 50% 0%, #1f1f1f 0%, #151515 70%)',
               }}
             >
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', mb: 2 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'baseline',
+                  mb: 2,
+                }}
+              >
                 <Typography variant="subtitle2" fontWeight={700} color="grey.300">
                   Preview
                 </Typography>
@@ -334,13 +343,24 @@ export function PlaygroundPage() {
                 flexGrow: 1,
               }}
             >
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 1.5 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  mb: 1.5,
+                }}
+              >
                 <Typography variant="subtitle2" fontWeight={700} color="grey.300">
                   JSX
                 </Typography>
                 <Tooltip title={copied ? 'Copied' : 'Copy'}>
-                  <IconButton size="small" onClick={handleCopy} aria-label="Copy JSX">
-                    {copied ? <Check fontSize="small" color="success" /> : <ContentCopy fontSize="small" />}
+                  <IconButton size="small" onClick={() => void handleCopy()} aria-label="Copy JSX">
+                    {copied ? (
+                      <Check fontSize="small" color="success" />
+                    ) : (
+                      <ContentCopy fontSize="small" />
+                    )}
                   </IconButton>
                 </Tooltip>
               </Box>
@@ -406,6 +426,7 @@ export function PlaygroundPage() {
                       step={1}
                       value={gap}
                       valueLabelDisplay="auto"
+                      slotProps={{ input: { 'aria-label': 'Gap' } }}
                       onChange={(_event, value) => setGap(value as number)}
                     />
                   </ControlRow>
@@ -417,6 +438,7 @@ export function PlaygroundPage() {
                       step={1}
                       value={fadeWidth}
                       valueLabelDisplay="auto"
+                      slotProps={{ input: { 'aria-label': 'Fade width' } }}
                       onChange={(_event, value) => setFadeWidth(value as number)}
                     />
                   </ControlRow>
@@ -453,6 +475,7 @@ export function PlaygroundPage() {
                       step={1}
                       value={count}
                       valueLabelDisplay="auto"
+                      slotProps={{ input: { 'aria-label': 'Buttons' } }}
                       onChange={(_event, value) => setCount(value as number)}
                     />
                   </ControlRow>
@@ -464,6 +487,7 @@ export function PlaygroundPage() {
                       step={50}
                       value={transitionDuration}
                       valueLabelDisplay="auto"
+                      slotProps={{ input: { 'aria-label': 'Duration' } }}
                       onChange={(_event, value) => setTransitionDuration(value as number)}
                     />
                   </ControlRow>
@@ -475,10 +499,15 @@ export function PlaygroundPage() {
                       fullWidth
                       value={transitionEasing}
                       onChange={(event) => setTransitionEasing(event.target.value)}
+                      inputProps={{ 'aria-label': 'Easing' }}
                       SelectProps={{ sx: { ...mono, fontSize: 13 } }}
                     >
                       {EASINGS.map((easing) => (
-                        <MenuItem key={easing.value} value={easing.value} sx={{ ...mono, fontSize: 13 }}>
+                        <MenuItem
+                          key={easing.value}
+                          value={easing.value}
+                          sx={{ ...mono, fontSize: 13 }}
+                        >
                           {easing.label}
                         </MenuItem>
                       ))}
@@ -508,7 +537,13 @@ export function PlaygroundPage() {
 
                   {manual && (
                     <Box>
-                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                        }}
+                      >
                         <Typography variant="body2" fontWeight={600} color="grey.200">
                           Open
                         </Typography>

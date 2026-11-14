@@ -87,8 +87,7 @@ export type CollageFabSlotsAndSlotProps = CreateSlotsAndSlotProps<
 >;
 
 export interface CollageFabProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>,
-    CollageFabSlotsAndSlotProps {
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>, CollageFabSlotsAndSlotProps {
   /**
    * The buttons to stack. Order matters: index 0 is the anchor, the remaining
    * children fan out along `direction`.

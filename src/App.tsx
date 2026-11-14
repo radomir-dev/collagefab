@@ -42,7 +42,7 @@ export default function App() {
           <Box sx={{ flexGrow: 1 }} />
           <Tabs
             value={page}
-            onChange={(_event, value: number) => navigate(TAB_ROUTES[value])}
+            onChange={(_event, value: number) => void navigate(TAB_ROUTES[value])}
             textColor="inherit"
             indicatorColor="primary"
             variant="scrollable"

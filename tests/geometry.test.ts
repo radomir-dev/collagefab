@@ -23,7 +23,8 @@ function state(overrides: Partial<CollageFabOwnerState> = {}): CollageFabOwnerSt
 
 const numbers = (value: string) => (value.match(/-?\d+(?:\.\d+)?/g) ?? []).map(Number);
 
-const translateOf = (geometry: ReturnType<typeof getItemGeometry>) => numbers(geometry.translate)[0];
+const translateOf = (geometry: ReturnType<typeof getItemGeometry>) =>
+  numbers(geometry.translate)[0];
 const maskPositionOf = (geometry: ReturnType<typeof getItemGeometry>, axis: 'x' | 'y') => {
   const [x = 0, y = 0] = numbers(geometry.maskPosition);
   return axis === 'x' ? x : y;
@@ -60,7 +61,9 @@ describe('getItemGeometry', () => {
       const horizontal = direction === 'left' || direction === 'right';
 
       expect(geometry.translate.startsWith(horizontal ? 'translateX(' : 'translateY(')).toBe(true);
-      expect(geometry.maskPosition).toMatch(horizontal ? /^-?\d+(\.\d+)?px 0px$/ : /^0px -?\d+(\.\d+)?px$/);
+      expect(geometry.maskPosition).toMatch(
+        horizontal ? /^-?\d+(\.\d+)?px 0px$/ : /^0px -?\d+(\.\d+)?px$/,
+      );
       expect(geometry.maskSize).toMatch(horizontal ? /^\d+px 100%$/ : /^100% \d+px$/);
     }
   });

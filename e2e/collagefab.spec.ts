@@ -36,7 +36,9 @@ test.beforeEach(async ({ page }) => {
     await page.locator('.MuiCollageFab-root').first().waitFor({ timeout: 15_000 });
   } catch {
     const html = (await page.content()).slice(0, 600);
-    throw new Error(`app never rendered. Problems:\n${problems.join('\n') || '(none reported)'}\nHTML: ${html}`);
+    throw new Error(
+      `app never rendered. Problems:\n${problems.join('\n') || '(none reported)'}\nHTML: ${html}`,
+    );
   }
 });
 
