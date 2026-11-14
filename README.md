@@ -1,10 +1,10 @@
 # MUI CollageFab
 
-**[Live demo →](https://www.radomir.dev/mui-collage-fab/)**
+**[Live demo →](https://radomir.dev/mui-collage-fab/)**
 
 | Collapsed | Expanded |
 | --- | --- |
-| <img src="https://raw.githubusercontent.com/radomir-dev/mui-collage-fab/main/docs/collagefab-collapsed.png" alt="Three CollageFab buttons collapsed into a single stacked circle" width="400" /> | <img src="https://raw.githubusercontent.com/radomir-dev/mui-collage-fab/main/docs/collagefab-expanded.png" alt="Three CollageFab buttons fanned out into a horizontal row" width="400" /> |
+| <img src="https://raw.githubusercontent.com/radomir-dev/mui-collage-fab/main/docs/collagefab-collapsed.png" alt="Three CollageFab buttons collapsed into a single stacked circle" height="104" /> | <img src="https://raw.githubusercontent.com/radomir-dev/mui-collage-fab/main/docs/collagefab-expanded.png" alt="Three CollageFab buttons fanned out into a horizontal row" height="104" /> |
 
 A Material UI floating action button that behaves like a collapsed stack of overlapping circles. Collapsed, a set of `Fab`s sits perfectly stacked and reads as a single button with soft gradient slices at the edges. On hover (mouse) or tap (touch), the parent expands its main-axis extent and the buttons fan out into a row while their CSS masks slide in lockstep with the movement — so the unfold reads as one continuous morph instead of a pop.
 
@@ -120,9 +120,9 @@ const theme = createTheme({
 
 ## Demo site
 
-1. Demo — <https://www.radomir.dev/mui-collage-fab/>
-2. Components API — <https://www.radomir.dev/mui-collage-fab/#/docs>
-3. Playground — <https://www.radomir.dev/mui-collage-fab/#/playground>
+1. Demo — <https://radomir.dev/mui-collage-fab/>
+2. Components API — <https://radomir.dev/mui-collage-fab/#/docs>
+3. Playground — <https://radomir.dev/mui-collage-fab/#/playground>
 
 Routing is hash-based, so the built site works on any static host without a
 server-side fallback.
