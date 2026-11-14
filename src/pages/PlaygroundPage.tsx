@@ -355,11 +355,7 @@ export function PlaygroundPage() {
                   JSX
                 </Typography>
                 <Tooltip title={copied ? 'Copied' : 'Copy'}>
-                  <IconButton
-                    size="small"
-                    onClick={() => void handleCopy()}
-                    aria-label="Copy JSX"
-                  >
+                  <IconButton size="small" onClick={() => void handleCopy()} aria-label="Copy JSX">
                     {copied ? (
                       <Check fontSize="small" color="success" />
                     ) : (
@@ -430,6 +426,7 @@ export function PlaygroundPage() {
                       step={1}
                       value={gap}
                       valueLabelDisplay="auto"
+                      slotProps={{ input: { 'aria-label': 'Gap' } }}
                       onChange={(_event, value) => setGap(value as number)}
                     />
                   </ControlRow>
@@ -441,6 +438,7 @@ export function PlaygroundPage() {
                       step={1}
                       value={fadeWidth}
                       valueLabelDisplay="auto"
+                      slotProps={{ input: { 'aria-label': 'Fade width' } }}
                       onChange={(_event, value) => setFadeWidth(value as number)}
                     />
                   </ControlRow>
@@ -477,6 +475,7 @@ export function PlaygroundPage() {
                       step={1}
                       value={count}
                       valueLabelDisplay="auto"
+                      slotProps={{ input: { 'aria-label': 'Buttons' } }}
                       onChange={(_event, value) => setCount(value as number)}
                     />
                   </ControlRow>
@@ -488,6 +487,7 @@ export function PlaygroundPage() {
                       step={50}
                       value={transitionDuration}
                       valueLabelDisplay="auto"
+                      slotProps={{ input: { 'aria-label': 'Duration' } }}
                       onChange={(_event, value) => setTransitionDuration(value as number)}
                     />
                   </ControlRow>
@@ -499,6 +499,7 @@ export function PlaygroundPage() {
                       fullWidth
                       value={transitionEasing}
                       onChange={(event) => setTransitionEasing(event.target.value)}
+                      inputProps={{ 'aria-label': 'Easing' }}
                       SelectProps={{ sx: { ...mono, fontSize: 13 } }}
                     >
                       {EASINGS.map((easing) => (

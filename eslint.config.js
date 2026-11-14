@@ -29,7 +29,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ['eslint.config.js'],
+    files: ['**/*.js', '**/*.mjs'],
     extends: [tseslint.configs.disableTypeChecked],
   },
   jsxA11y.flatConfigs.recommended,

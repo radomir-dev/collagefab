@@ -55,7 +55,7 @@ export function VersionBadge() {
       href={RELEASE_URL}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label={`Version ${__APP_VERSION__} release on GitHub`}
+      aria-label={`v${__APP_VERSION__} release on GitHub`}
       title={`v${__APP_VERSION__} release`}
       sx={{ ...WATERMARK_SX, left: 6 }}
     >
