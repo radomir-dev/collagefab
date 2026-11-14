@@ -13,7 +13,7 @@ import type { ApiDocs, ApiFieldDoc, ApiPropDoc, ApiSlotDoc } from '../src/docs/a
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 
-export const COMPONENT_FILE = path.join(ROOT, 'src/components/CollageFab.tsx');
+const COMPONENT_FILE = path.join(ROOT, 'src/components/CollageFab.tsx');
 const DEFAULTS_FILE = path.join(ROOT, 'src/components/collageFabDefaults.ts');
 
 /** Every file whose edit can change the generated docs. */
