@@ -355,7 +355,11 @@ export function PlaygroundPage() {
                   JSX
                 </Typography>
                 <Tooltip title={copied ? 'Copied' : 'Copy'}>
-                  <IconButton size="small" onClick={handleCopy} aria-label="Copy JSX">
+                  <IconButton
+                    size="small"
+                    onClick={() => void handleCopy()}
+                    aria-label="Copy JSX"
+                  >
                     {copied ? (
                       <Check fontSize="small" color="success" />
                     ) : (
