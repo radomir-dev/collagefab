@@ -35,7 +35,7 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Lint workflows
-        run: docker run --rm -v "$PWD:/repo" -w /repo rhysd/actionlint:1.7.12
+        run: npm run check:actions
       - run: npm run doctor -- --fast
 
   e2e:

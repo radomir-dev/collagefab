@@ -74,7 +74,7 @@
     "check:size": "size-limit",
     "doctor": "node scripts/doctor.mjs",
     "doctor:fast": "node scripts/doctor.mjs --fast",
-    "check:actions": "actionlint"
+    "check:actions": "node scripts/actionlint.mjs"
   },
   "dependencies": {
     "@mui/utils": "^9.5.0"
