@@ -146,7 +146,7 @@ the same pitch in opposite directions.
 
 ## Development
 
-Requires Node.js 18 or newer.
+Requires Node.js 22.12 or newer.
 
 ```bash
 npm install
