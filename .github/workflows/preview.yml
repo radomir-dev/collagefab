@@ -57,6 +57,7 @@ jobs:
           umbrella-dir: pr-preview
           preview-branch: gh-pages
           # Pages serves this project from the account's custom domain, so the action's
-          # *.github.io default would hand out a URL that only redirects.
-          pages-base-url: https://radomir.dev/mui-collage-fab
+          # *.github.io default would hand out a URL that only redirects. It prepends
+          # `https://` itself, so this is the bare host and path.
+          pages-base-url: radomir.dev/mui-collage-fab
           qr-code: false
