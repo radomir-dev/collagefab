@@ -1,0 +1,124 @@
+- generic [ref=e2]:
+  - banner [ref=e3]:
+    - generic [ref=e4]:
+      - heading "CollageFab" [level=6] [ref=e5]
+      - tablist [ref=e9]:
+        - tab "Demo" [selected] [ref=e10] [cursor=pointer]
+        - tab "Components API" [ref=e11] [cursor=pointer]
+        - tab "Playground" [ref=e12] [cursor=pointer]
+  - generic [ref=e14]:
+    - heading "Perfected CollageFab" [level=3] [ref=e15]
+    - heading [level=6] [ref=e16]:
+      - text: Mathematical clipping slices overlapping circles. Simultaneous inverse translation of the
+      - strong [ref=e17]: WebkitMaskPosition
+      - text: against the component's
+      - strong [ref=e18]: translateX
+      - text: creates a flawless morphing unfold without bounds popping.
+    - generic [ref=e19]:
+      - generic [ref=e21]:
+        - generic [ref=e22]:
+          - heading "1 Button" [level=6] [ref=e23]
+          - generic [ref=e24]: Standard Fab bypass
+        - group [ref=e26] [cursor=pointer]:
+          - button [ref=e28]
+      - generic [ref=e32]:
+        - generic [ref=e33]:
+          - heading "2 Buttons" [level=6] [ref=e34]
+          - generic [ref=e35]: Perfect slice split
+        - group [ref=e37] [cursor=pointer]:
+          - button [ref=e39]
+          - button [ref=e43]
+      - generic [ref=e47]:
+        - generic [ref=e48]:
+          - heading "3 Buttons" [level=6] [ref=e49]
+          - generic [ref=e50]: Perfect slice split
+        - group [ref=e52] [cursor=pointer]:
+          - button [ref=e54]
+          - button [ref=e58]
+          - button [ref=e62]
+      - generic [ref=e66]:
+        - generic [ref=e67]:
+          - heading "4 Buttons" [level=6] [ref=e68]
+          - generic [ref=e69]: Perfect slice split
+        - group [ref=e71] [cursor=pointer]:
+          - button [ref=e73]
+          - button [ref=e77]
+          - button [ref=e81]
+          - button [ref=e85]
+      - generic [ref=e89]:
+        - generic [ref=e90]:
+          - heading "5 Buttons" [level=6] [ref=e91]
+          - generic [ref=e92]: Perfect slice split
+        - group [ref=e94] [cursor=pointer]:
+          - button [ref=e96]
+          - button [ref=e100]
+          - button [ref=e104]
+          - button [ref=e108]
+          - button [ref=e112]
+      - generic [ref=e116]:
+        - generic [ref=e117]:
+          - heading "6 Buttons" [level=6] [ref=e118]
+          - generic [ref=e119]: Perfect slice split
+        - group [ref=e121] [cursor=pointer]:
+          - button [ref=e123]
+          - button [ref=e127]
+          - button [ref=e131]
+          - button [ref=e135]
+          - button [ref=e139]
+          - button [ref=e143]
+      - generic [ref=e147]:
+        - generic [ref=e148]:
+          - heading "7 Buttons" [level=6] [ref=e149]
+          - generic [ref=e150]: Limits of visual clarity
+        - group [ref=e152] [cursor=pointer]:
+          - button [ref=e154]
+          - button [ref=e158]
+          - button [ref=e162]
+          - button [ref=e166]
+          - button [ref=e170]
+          - button [ref=e174]
+          - button [ref=e178]
+    - heading "Direction" [level=5] [ref=e181]
+    - generic [ref=e182]:
+      - generic [ref=e183]:
+        - generic [ref=e184]: Horizontal
+        - generic [ref=e185]:
+          - generic [ref=e187]:
+            - generic [ref=e188]:
+              - heading "left" [level=6] [ref=e189]
+              - generic [ref=e190]: Pins right, fans left
+            - group [ref=e192] [cursor=pointer]:
+              - button [ref=e194]
+              - button [ref=e198]
+              - button [ref=e202]
+              - button [ref=e206]
+          - generic [ref=e210]:
+            - generic [ref=e211]:
+              - heading "right" [level=6] [ref=e212]
+              - generic [ref=e213]: Pins left, fans right
+            - group [ref=e215] [cursor=pointer]:
+              - button [ref=e217]
+              - button [ref=e221]
+              - button [ref=e225]
+              - button [ref=e229]
+      - generic [ref=e232]:
+        - generic [ref=e233]: Vertical
+        - generic [ref=e234]:
+          - generic [ref=e236]:
+            - generic [ref=e237]:
+              - heading "up" [level=6] [ref=e238]
+              - generic [ref=e239]: Pins bottom, fans up
+            - group [ref=e241] [cursor=pointer]:
+              - button [ref=e243]
+              - button [ref=e247]
+              - button [ref=e251]
+              - button [ref=e255]
+          - generic [ref=e259]:
+            - generic [ref=e260]:
+              - heading "down" [level=6] [ref=e261]
+              - generic [ref=e262]: Pins top, fans down
+            - group [ref=e264] [cursor=pointer]:
+              - button [ref=e266]
+              - button [ref=e270]
+              - button [ref=e274]
+              - button [ref=e278]
