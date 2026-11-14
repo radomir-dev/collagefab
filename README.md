@@ -158,22 +158,25 @@ npm install
 npm run dev
 ```
 
-| Command                 | Description                                                              |
-| ----------------------- | ------------------------------------------------------------------------ |
-| `npm run dev`           | Start the Vite dev server with HMR.                                      |
-| `npm run build`         | Type-check with `tsc --noEmit`, then build the demo to `dist/`.          |
-| `npm run build:lib`     | Build the publishable package to `dist-lib/` (ESM + CJS + types).        |
-| `npm run preview`       | Serve the production build locally.                                      |
-| `npm test`              | Run the Vitest suite (geometry + behaviour in jsdom).                    |
-| `npm run test:coverage` | Same suite with a v8 coverage report.                                    |
-| `npm run test:e2e`      | Build, then run the Playwright checks against `vite preview`.            |
-| `npm run types:test`    | Type-check the public API surface (`expectTypeOf` + `@ts-expect-error`). |
-| `npm run check:package` | `publint`, `attw --pack` and a tarball content assertion.                |
-| `npm run check:size`    | Enforce the size-limit budgets for `dist-lib`.                           |
-| `npm run lint`          | ESLint, type-aware, with hooks and jsx-a11y rules.                       |
-| `npm run format:check`  | Prettier check. `npm run format` rewrites in place.                      |
-| `npm run doctor`        | Run every check below in one pass.                                       |
-| `npm run doctor:fast`   | Same, minus the browser suite and `npm audit`.                           |
+| Command                          | Description                                                              |
+| -------------------------------- | ------------------------------------------------------------------------ |
+| `npm run dev`                    | Start the Vite dev server with HMR.                                      |
+| `npm run build`                  | Type-check with `tsc --noEmit`, then build the demo to `dist/`.          |
+| `npm run build:lib`              | Build the publishable package to `dist-lib/` (ESM + CJS + types).        |
+| `npm run preview`                | Serve the production build locally.                                      |
+| `npm test`                       | Run the Vitest suite (geometry + behaviour in jsdom).                    |
+| `npm run test:coverage`          | Same suite with a v8 coverage report.                                    |
+| `npm run test:e2e`               | Build, then run the Playwright checks against `vite preview`.            |
+| `npm run types:test`             | Type-check the public API surface (`expectTypeOf` + `@ts-expect-error`). |
+| `npm run check:package`          | `publint`, `attw --pack` and a tarball content assertion.                |
+| `npm run check:size`             | Enforce the size-limit budgets for `dist-lib`.                           |
+| `npm run lint`                   | ESLint, type-aware, with hooks and jsx-a11y rules.                       |
+| `npm run format:check`           | Prettier check. `npm run format` rewrites in place.                      |
+| `npm run check:unused`           | Knip: unused files, exports and dependencies.                            |
+| `npm run check:release`          | `semantic-release --dry-run`, validating the release config.             |
+| `npm run check:actions-security` | Zizmor audit of the workflows.                                           |
+| `npm run doctor`                 | Run every check below in one pass.                                       |
+| `npm run doctor:fast`            | Same, minus the browser suite and `npm audit`.                           |
 
 ### Checks
 
@@ -190,10 +193,19 @@ failure, so one pass reports everything that is broken:
 7. `docs:check`, `actionlint`, `audit` and `test:e2e` — skipped with a reason when
    the script exists but the tool is missing (for example `actionlint` locally).
 
+Property tests (`fast-check`, `tests/geometry.property.test.ts`) generate sizes, gaps,
+fade widths, counts and directions and assert the geometry invariants rather than
+enumerating cases: one pitch of translation per slice, a cut line pinned in container
+space, and a mask window wide enough to cover the fan. `check:unused` (knip) catches dead
+files, exports and dependencies; `check:release` loads every semantic-release plugin
+through `--dry-run`; the e2e suite also runs a Pixel-class mobile project with touch
+gesture specs, and zizmor audits the workflows themselves in CI.
+
 `--fast` drops `test:e2e` and `audit`, `--only=lint,unit` runs a subset. Each failed
 step keeps its output in `node_modules/.cache/doctor/<step>.log`. CI runs
-`npm run doctor -- --fast` plus a separate e2e job covering chromium, firefox and
-webkit, and `dependency-review` on pull requests.
+`npm run doctor -- --fast` plus a separate e2e job covering chromium, firefox, webkit and
+a Pixel-class mobile viewport, `zizmor` on the workflows, and `dependency-review` on pull
+requests.
 
 Deployment: `.github/workflows/deploy.yml` builds the demo on every push to
 `main` and force-pushes `dist/` to the orphan `gh-pages` branch, which GitHub

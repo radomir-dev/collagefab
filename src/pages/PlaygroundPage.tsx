@@ -364,7 +364,7 @@ export function PlaygroundPage() {
                   </IconButton>
                 </Tooltip>
               </Box>
-              <Box component="pre" sx={codeBlockSx}>
+              <Box tabIndex={0} component="pre" sx={codeBlockSx}>
                 <code>{snippet}</code>
               </Box>
             </Paper>

@@ -22,12 +22,25 @@ const STEPS = [
   { name: 'lib', script: 'build:lib' },
   { name: 'package', script: 'check:package' },
   { name: 'size', script: 'check:size' },
+  { name: 'unused', script: 'check:unused' },
+  {
+    name: 'release',
+    script: 'check:release',
+    available: () => Boolean(process.env.GITHUB_TOKEN),
+    reason: 'no GITHUB_TOKEN',
+  },
   { name: 'docs', script: 'docs:check' },
   {
     name: 'actions',
     command: 'actionlint',
     available: () => hasBinary('actionlint'),
     reason: 'actionlint not installed',
+  },
+  {
+    name: 'actions-security',
+    command: 'zizmor .github/workflows',
+    available: () => hasBinary('zizmor'),
+    reason: 'zizmor not installed',
   },
   {
     name: 'audit',
