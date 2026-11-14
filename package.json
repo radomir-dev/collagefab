@@ -75,7 +75,7 @@
     "check:actions": "actionlint"
   },
   "dependencies": {
-    "@mui/utils": "^5.15.0"
+    "@mui/utils": "^9.5.0"
   },
   "peerDependencies": {
     "@emotion/react": "^11.0.0",
