@@ -470,7 +470,7 @@ export function PlaygroundPage() {
                     />
                   </ControlRow>
 
-                  <ControlRow label="Speed" value={`${transitionDuration}ms`}>
+                  <ControlRow label="Duration" value={`${transitionDuration}ms`}>
                     <Slider
                       min={0}
                       max={2000}
