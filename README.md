@@ -152,7 +152,11 @@ npm run dev
 Deployment: `.github/workflows/deploy.yml` builds the demo on every push to
 `main` and force-pushes `dist/` to the orphan `gh-pages` branch, which GitHub
 Pages serves. The branch has no shared history with `main`, so it only ever
-holds built files. `.github/workflows/publish.yml` publishes the package to npm
-from a GitHub Release. The production build uses a `/mui-collage-fab/` asset
+holds built files. `.github/workflows/publish.yml` runs `semantic-release` on
+every push to `main`: conventional commit subjects decide the version (`fix:`
+patch, `feat:` minor, `BREAKING CHANGE:` major), and a release publishes the
+package, writes `CHANGELOG.md`, and commits the bump back with `[skip ci]`.
+Pull request titles are linted to the same convention, which matters because
+squash merges put the PR title in the commit subject. The production build uses a `/mui-collage-fab/` asset
 base while the dev server stays at the root, so the local URL is unchanged —
 see `vite.config.ts`.

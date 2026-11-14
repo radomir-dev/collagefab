@@ -39,7 +39,8 @@
     "./package.json": "./package.json"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "engines": {
     "node": ">=18"
@@ -49,7 +50,8 @@
     "build": "tsc --noEmit && vite build",
     "build:lib": "vite build --config vite.lib.config.ts && tsc -p tsconfig.build.json",
     "prepublishOnly": "npm run build:lib",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "release": "semantic-release"
   },
   "dependencies": {
     "@mui/utils": "^5.15.0"
@@ -66,12 +68,17 @@
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.16.7",
+    "@semantic-release/changelog": "^7.0.0",
+    "@semantic-release/git": "^11.0.1",
+    "@semantic-release/github": "^12.0.11",
+    "@semantic-release/npm": "^13.2.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.18.4",
+    "semantic-release": "^25.0.9",
     "typescript": "~5.6.3",
     "vite": "^5.4.10"
   }
