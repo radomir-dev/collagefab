@@ -28,6 +28,11 @@ const GAP_MAX = 14;
 const GAP_RATIO = 0.25;
 const CARD_MIN_HEIGHT = 200;
 const DIRECTION_BUTTON_COUNT = 4;
+const DIRECTION_SIZE = 56;
+const DIRECTION_GAP = 14;
+const DIRECTION_EXTENT =
+  DIRECTION_BUTTON_COUNT * DIRECTION_SIZE + (DIRECTION_BUTTON_COUNT - 1) * DIRECTION_GAP;
+const VERTICAL_CARD_MAX_WIDTH = 320;
 
 interface RowFit {
   size: number;
@@ -90,15 +95,17 @@ const CARD_SX = {
   background: 'linear-gradient(145deg, #232323 0%, #1a1a1a 100%)',
 } as const;
 
-function CardHeading({ title, caption }: { title: string; caption: string }) {
+function CardHeading({ title, caption }: { title: string; caption?: string }) {
   return (
     <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
       <Typography variant="h6" fontWeight="bold" color="grey.300">
         {title}
       </Typography>
-      <Typography variant="caption" sx={{ color: 'grey.600', maxWidth: 100, textAlign: 'right' }}>
-        {caption}
-      </Typography>
+      {caption && (
+        <Typography variant="caption" sx={{ color: 'grey.600', maxWidth: 100, textAlign: 'right' }}>
+          {caption}
+        </Typography>
+      )}
     </Box>
   );
 }
@@ -106,12 +113,10 @@ function CardHeading({ title, caption }: { title: string; caption: string }) {
 function CountCard({ count }: { count: number }) {
   const { ref, width } = useMeasuredWidth<HTMLDivElement>();
   const { size, gap } = fitRow(count, width);
-  const caption =
-    count === 7 ? 'Limits of visual clarity' : count === 1 ? 'Standard Fab bypass' : 'Perfect slice split';
 
   return (
     <Paper elevation={3} sx={{ ...CARD_SX, minHeight: CARD_MIN_HEIGHT }}>
-      <CardHeading title={`${count} Button${count > 1 ? 's' : ''}`} caption={caption} />
+      <CardHeading title={`${count} Button${count > 1 ? 's' : ''}`} />
 
       {/* Full-width stage: it is the measured box the row has to fit into, and it
           centers the stack. The bottom padding mirrors the heading so the stack
@@ -160,34 +165,36 @@ const DIRECTION_DEMOS: DirectionDemo[] = [
   { value: 'down', caption: 'Pins top, fans down', horizontal: false, justifyContent: 'flex-start' },
 ];
 
-// One axis per row: the horizontal pair sits above the vertical pair, so a
-// reader never compares a vertical fan against a horizontal one.
+// Two axes, two shapes: horizontal demos get wide short cards in the left
+// column, vertical demos get narrow tall cards side by side in the right one.
 const HORIZONTAL_DEMOS = DIRECTION_DEMOS.filter((demo) => demo.horizontal);
 const VERTICAL_DEMOS = DIRECTION_DEMOS.filter((demo) => !demo.horizontal);
 
-function DirectionCard({ demo }: { demo: DirectionDemo }) {
+function DirectionCard({ demo, fill }: { demo: DirectionDemo; fill?: boolean }) {
   const { ref, width } = useMeasuredWidth<HTMLDivElement>();
-  const { size, gap, extent } = fitRow(DIRECTION_BUTTON_COUNT, width);
+  const fitted = fitRow(DIRECTION_BUTTON_COUNT, width);
+  const size = demo.horizontal ? fitted.size : DIRECTION_SIZE;
+  const gap = demo.horizontal ? fitted.gap : DIRECTION_GAP;
 
   return (
-    <Paper elevation={3} sx={CARD_SX}>
+    <Paper elevation={3} sx={{ ...CARD_SX, ...(fill ? { height: '100%' } : {}) }}>
       <CardHeading title={demo.value} caption={demo.caption} />
 
-      {/* A square stage reserves the full fan extent on both axes, so the fan-out
-          never resizes the card. Every card shares the same stage, which keeps the
-          four heights identical, and pins the anchor to its own edge on the main
-          axis while centering it on the cross axis: left/right and up/down each
-          mirror, and the two cards in a row line up. */}
+      {/* The stage reserves exactly the fan's main-axis extent, so hovering never
+          resizes the card: one button plus insets for the horizontal fans, the
+          full 4-button run for the vertical ones. */}
       <Box
         ref={ref}
         sx={{
           width: '100%',
-          height: extent,
+          height: demo.horizontal ? size + 32 : undefined,
+          minHeight: demo.horizontal ? undefined : DIRECTION_EXTENT,
+          flexGrow: fill ? 1 : 0,
+          mt: 2,
           display: 'flex',
           flexDirection: demo.horizontal ? 'row' : 'column',
           justifyContent: demo.justifyContent,
           alignItems: 'center',
-          overflow: 'visible',
         }}
       >
         <CollageFab direction={demo.value} size={size} gap={gap} fadeWidth={12}>
@@ -209,22 +216,50 @@ function DirectionCard({ demo }: { demo: DirectionDemo }) {
   );
 }
 
-function DirectionRow({ label, demos }: { label: string; demos: DirectionDemo[] }) {
+function DirectionGroup({
+  label,
+  demos,
+  inline,
+  width,
+}: {
+  label: string;
+  demos: DirectionDemo[];
+  inline?: boolean;
+  width?: object;
+}) {
   return (
-    <Box>
+    <Box sx={{ display: 'flex', flexDirection: 'column', minWidth: 0, ...width }}>
       <Typography
         variant="overline"
         sx={{ color: 'grey.500', letterSpacing: '0.2em', display: 'block', mb: 2 }}
       >
         {label}
       </Typography>
-      <Grid container spacing={4} justifyContent="center">
+      <Box
+        sx={{
+          display: 'flex',
+          gap: 3,
+          flexGrow: 1,
+          justifyContent: inline ? 'center' : undefined,
+          flexDirection: inline ? 'row' : 'column',
+        }}
+      >
         {demos.map((demo) => (
-          <Grid item xs={12} md={6} lg={6} key={`direction-${demo.value}`}>
-            <DirectionCard demo={demo} />
-          </Grid>
+          <Box
+            key={`direction-${demo.value}`}
+            sx={{
+              flex: inline ? '1 1 0' : '0 0 auto',
+              maxWidth: inline ? VERTICAL_CARD_MAX_WIDTH : undefined,
+              minWidth: 0,
+              display: 'flex',
+            }}
+          >
+            <Box sx={{ width: '100%' }}>
+              <DirectionCard demo={demo} fill={inline} />
+            </Box>
+          </Box>
         ))}
-      </Grid>
+      </Box>
     </Box>
   );
 }
@@ -242,7 +277,7 @@ export function DemoPage() {
       </Typography>
 
       <Grid container spacing={4} justifyContent="center">
-        {[1, 2, 3, 4, 5, 6, 7].map((count) => (
+        {[1, 2, 3, 4, 5, 6].map((count) => (
           <Grid item xs={12} md={6} lg={4} key={`demo-${count}`}>
             <CountCard count={count} />
           </Grid>
@@ -253,9 +288,25 @@ export function DemoPage() {
         Direction
       </Typography>
 
-      <Box sx={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-        <DirectionRow label="Horizontal" demos={HORIZONTAL_DEMOS} />
-        <DirectionRow label="Vertical" demos={VERTICAL_DEMOS} />
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
+          alignItems: 'stretch',
+          gap: 4,
+        }}
+      >
+        <DirectionGroup
+          label="Horizontal"
+          demos={HORIZONTAL_DEMOS}
+          width={{ flex: { md: '0 0 440px' } }}
+        />
+        <DirectionGroup
+          label="Vertical"
+          demos={VERTICAL_DEMOS}
+          inline
+          width={{ flex: '1 1 auto' }}
+        />
       </Box>
     </Container>
   );
