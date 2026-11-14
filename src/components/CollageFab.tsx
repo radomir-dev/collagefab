@@ -8,13 +8,28 @@ import useSlotProps from '@mui/utils/useSlotProps';
 import composeClasses from '@mui/utils/composeClasses';
 import generateUtilityClass from '@mui/utils/generateUtilityClass';
 import { getItemGeometry, resolveSize } from './collageFabGeometry';
+import { COLLAGE_FAB_DEFAULTS } from './collageFabDefaults';
 
+/**
+ * The axis the buttons fan out on, starting from the anchor child.
+ */
 export type CollageFabDirection = 'left' | 'right' | 'up' | 'down';
 
+/**
+ * How the group reacts to pointers.
+ */
 export type CollageFabTrigger = 'hover' | 'click' | 'manual';
 
+/**
+ * Diameter of every button. Named sizes resolve to small 40px, medium 48px and
+ * large 56px; numeric values are used verbatim.
+ */
 export type CollageFabSize = 'small' | 'medium' | 'large' | number;
 
+/**
+ * The shape of every button: a circle, a rounded square or a sharp-cornered
+ * square.
+ */
 export type CollageFabVariant = 'circular' | 'rounded' | 'square';
 
 // `'rounded'` scales with the button so its corner reads the same at every size;
@@ -34,73 +49,131 @@ const FOCUSABLE_DESCENDANT_SELECTOR = [
   '[tabindex]:not([tabindex="-1"])',
 ].join(',');
 
+/**
+ * Class names the component applies, and the accepted keys for `classes`.
+ */
 export interface CollageFabClasses {
+  /** The animated container that holds every slice. */
   root: string;
+  /** One masked wrapper per child. */
   item: string;
+  /** Applied to the root while the group is expanded. */
   expanded: string;
+  /** Applied to the root while the group is collapsed. */
   collapsed: string;
 }
 
+/**
+ * Every key accepted by `classes`.
+ */
 export type CollageFabClassKey = keyof CollageFabClasses;
 
+/**
+ * Slot props accepted by a custom `root` slot component.
+ */
 export interface CollageFabRootSlotPropsOverrides {}
+
+/**
+ * Slot props accepted by a custom `item` slot component.
+ */
 export interface CollageFabItemSlotPropsOverrides {}
 
+/**
+ * State shared by the root slot and the item slots while styling.
+ */
 export interface CollageFabOwnerState {
+  /** Whether the group is currently expanded. */
   open: boolean;
+  /** The resolved fan-out direction. */
   direction: CollageFabDirection;
+  /** The resolved pointer trigger mode. */
   trigger: CollageFabTrigger;
+  /** The button diameter in pixels, after resolving the named size. */
   size: number;
+  /** The resolved shape of every button. */
   variant: CollageFabVariant;
+  /** The corner radius resolved from `variant`, inherited by every child. */
   cornerRadius: number | string;
+  /** The main-axis gap in pixels. */
   gap: number;
+  /** The fade width in pixels. */
   fadeWidth: number;
+  /** The number of valid children currently rendered. */
   count: number;
+  /** The morph duration in milliseconds. */
   transitionDuration: number;
+  /** The morph easing. */
   transitionEasing: string;
 }
 
+/**
+ * The per-slice CSS computed for one child.
+ */
 export interface CollageFabItemGeometry {
+  /** The translate that moves the slice along the main axis. */
   translate: string;
+  /** The gradient that cuts the slice out of the container. */
   maskImage: string;
+  /** The size of that gradient, wide enough to cover the expanded row. */
   maskSize: string;
+  /** The offset that pins the cut line in container space. */
   maskPosition: string;
 }
 
+/**
+ * State handed to the item slot. It extends the shared state with the position
+ * of the child, so an item can be styled individually.
+ */
 export interface CollageFabItemOwnerState extends CollageFabOwnerState {
+  /** The position of the child in the stack. 0 is the anchor. */
   index: number;
+  /** True for the anchor child (index 0). */
   isAnchor: boolean;
+  /** The computed translate, mask image, mask size and mask position for this slice. */
   geometry: CollageFabItemGeometry;
 }
 
+/**
+ * Replaceable internal components.
+ */
 export interface CollageFabSlots {
+  /** The animated container. A replacement must forward `ref`, which `ClickAwayListener` needs. */
   root?: React.ElementType;
+  /** One masked wrapper per child, shaped by `variant`. */
   item?: React.ElementType;
 }
 
+/**
+ * The `slots` and `slotProps` props, typed per slot.
+ */
 export type CollageFabSlotsAndSlotProps = CreateSlotsAndSlotProps<
   CollageFabSlots,
   {
+    /** Props for the root slot, or a resolver that receives the shared ownerState. */
     root: SlotProps<'div', CollageFabRootSlotPropsOverrides, CollageFabOwnerState>;
+    /** Props for the item slot, or a resolver that receives the item ownerState. */
     item: SlotProps<'div', CollageFabItemSlotPropsOverrides, CollageFabItemOwnerState>;
   }
 >;
 
-export interface CollageFabProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>, CollageFabSlotsAndSlotProps {
+/**
+ * Props for the CollageFab component.
+ */
+export interface CollageFabProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
   /**
-   * The buttons to stack. Order matters: index 0 is the anchor, the remaining
-   * children fan out along `direction`.
+   * The buttons to stack. Every valid element is wrapped in a masked slot shaped
+   * by `variant`. Order matters: index 0 is the anchor, the rest fan out along
+   * `direction`.
    */
   children?: React.ReactNode;
   /**
-   * The axis the buttons fan out on, starting from the anchor child.
-   * @default 'left'
+   * The axis the buttons fan out on, starting from the anchor child. `left`
+   * matches the original right-anchored behaviour.
    */
   direction?: CollageFabDirection;
   /**
-   * Diameter of every button, in pixels. Numeric values are used verbatim.
-   * @default 'large'
+   * Diameter of every button. Named sizes resolve to small 40px, medium 48px,
+   * large 56px; numeric values are used verbatim.
    */
   size?: CollageFabSize;
   /**
@@ -108,24 +181,20 @@ export interface CollageFabProps
    * `'rounded'` to a rounded square and `'square'` to a sharp-cornered square.
    * The mask still slices the silhouette along the main axis, so the stack reads
    * as one shape when collapsed and as separate shapes when expanded.
-   * @default 'circular'
    */
   variant?: CollageFabVariant;
   /**
-   * Main axis gap between two buttons when expanded, in pixels.
-   * @default 16
+   * Main-axis gap in pixels between two buttons when expanded.
    */
   gap?: number;
   /**
-   * Width of the soft cut line between two slices, in pixels.
-   * @default 12
+   * Width in pixels of the soft cut line between two slices.
    */
   fadeWidth?: number;
   /**
    * How the group reacts to pointers. `'hover'` opens on mouse enter, closes on
-   * mouse leave and toggles on touch/pen tap. `'click'` toggles on any click.
+   * mouse leave and toggles on touch or pen tap; `'click'` toggles on any click;
    * `'manual'` disables all built-in pointer interaction.
-   * @default 'hover'
    */
   trigger?: CollageFabTrigger;
   /**
@@ -133,8 +202,7 @@ export interface CollageFabProps
    */
   open?: boolean;
   /**
-   * If `true`, the group is expanded by default.
-   * @default false
+   * If `true`, the group is expanded by default (uncontrolled).
    */
   defaultOpen?: boolean;
   /**
@@ -147,27 +215,33 @@ export interface CollageFabProps
   onClose?: (event: React.SyntheticEvent) => void;
   /**
    * If `true`, the group does not collapse when the user clicks away from it.
-   * @default false
    */
   disableClickAway?: boolean;
   /**
    * Duration of the morph, in milliseconds.
-   * @default 400
    */
   transitionDuration?: number;
   /**
    * Easing of the morph.
-   * @default 'cubic-bezier(0.4, 0, 0.2, 1)'
    */
   transitionEasing?: string;
   /**
-   * The system prop that allows defining system overrides as well as additional CSS styles.
+   * System prop that defines system overrides as well as additional CSS styles.
    */
   sx?: SxProps<Theme>;
   /**
    * Override or extend the styles applied to the component.
    */
   classes?: Partial<CollageFabClasses>;
+  /**
+   * Custom components for the `root` and `item` slots.
+   */
+  slots?: CollageFabSlotsAndSlotProps['slots'];
+  /**
+   * Props for each slot. `slotProps.item` accepts either a props object or an
+   * `(ownerState) => props` callback, which is the per-child escape hatch.
+   */
+  slotProps?: CollageFabSlotsAndSlotProps['slotProps'];
 }
 
 function getTransitionTiming(duration: number, easing: string): string {
@@ -336,25 +410,31 @@ function CollageFabItem(props: CollageFabItemProps) {
   return <ItemComponent {...itemSlotProps} />;
 }
 
+/**
+ * A floating action button that stacks several children into a single shape and
+ * unfolds them along a configurable direction on interaction. The root animates
+ * its own main-axis extent and applies one shared drop shadow, while each child
+ * is clipped by a moving gradient mask.
+ */
 export const CollageFab = React.forwardRef<HTMLDivElement, CollageFabProps>(
   function CollageFab(inProps, ref) {
     const props = useThemeProps({ props: inProps, name: 'MuiCollageFab' });
 
     const {
       children,
-      direction = 'left',
-      size = 'large',
-      variant = 'circular',
-      gap = 16,
-      fadeWidth = 12,
-      trigger = 'hover',
+      direction = COLLAGE_FAB_DEFAULTS.direction,
+      size = COLLAGE_FAB_DEFAULTS.size,
+      variant = COLLAGE_FAB_DEFAULTS.variant,
+      gap = COLLAGE_FAB_DEFAULTS.gap,
+      fadeWidth = COLLAGE_FAB_DEFAULTS.fadeWidth,
+      trigger = COLLAGE_FAB_DEFAULTS.trigger,
       open: openProp,
-      defaultOpen = false,
+      defaultOpen = COLLAGE_FAB_DEFAULTS.defaultOpen,
       onOpen,
       onClose,
-      disableClickAway = false,
-      transitionDuration = 400,
-      transitionEasing = 'cubic-bezier(0.4, 0, 0.2, 1)',
+      disableClickAway = COLLAGE_FAB_DEFAULTS.disableClickAway,
+      transitionDuration = COLLAGE_FAB_DEFAULTS.transitionDuration,
+      transitionEasing = COLLAGE_FAB_DEFAULTS.transitionEasing,
       classes: classesProp,
       slots,
       slotProps,
