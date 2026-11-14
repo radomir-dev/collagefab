@@ -1,3 +1,10 @@
+## [0.1.2](https://github.com/radomir-dev/mui-collage-fab/compare/v0.1.1...v0.1.2) (2026-11-14)
+
+
+### Bug Fixes
+
+* publish correct dual types and add npm run doctor ([#17](https://github.com/radomir-dev/mui-collage-fab/issues/17)) ([0ced46a](https://github.com/radomir-dev/mui-collage-fab/commit/0ced46aff174989478b11d5c7dbbcce4b5c6b555))
+
 ## [0.1.1](https://github.com/radomir-dev/mui-collage-fab/compare/v0.1.0...v0.1.1) (2026-11-14)
 
 
