@@ -29,9 +29,14 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-      - uses: peaceiris/actions-gh-pages@v4
+      # The preview workflow publishes per-pull-request copies into the same branch, so this
+      # deploy rebases onto what is already there and keeps the umbrella directory, rather
+      # than replacing the branch with a tree that holds only the new build.
+      - name: Publish the site to the gh-pages branch
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_branch: gh-pages
-          publish_dir: ./dist
-          force_orphan: true
+          folder: ./dist
+          branch: gh-pages
+          clean: true
+          clean-exclude: pr-preview/
+          force: false
