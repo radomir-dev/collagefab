@@ -1,0 +1,20 @@
+name: Label pull requests
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/labeler@v7
+        with:
+          # Do not sync: a manually assigned label such as `type: bug` must survive
+          # a push that no longer matches its path rules.
+          sync-labels: false

@@ -1,0 +1,58 @@
+# Etykiety PR nadawane po ścieżkach przez actions/labeler (workflow: .github/workflows/labeler.yml).
+# Wielkość, priorytet i `type: bug`/`type: feature` to oceny z opisu PR — ścieżka tego nie rozstrzyga.
+
+'area: component':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/components/**'
+          - 'src/index.ts'
+
+'area: demo':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'src/App.tsx'
+          - 'src/main.tsx'
+          - 'src/theme.ts'
+          - 'src/pages/**'
+          - 'src/site/**'
+          - 'index.html'
+          - 'public/**'
+
+'area: tests':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'tests/**'
+          - 'e2e/**'
+          - 'vitest.config.ts'
+          - 'playwright.config.ts'
+
+'area: build':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'scripts/**'
+          - 'vite.config.ts'
+          - 'vite.lib.config.ts'
+          - 'tsconfig.json'
+          - 'eslint.config.js'
+          - '.prettierrc.json'
+          - '.prettierignore'
+          - 'package.json'
+          - 'package-lock.json'
+
+'area: pipeline':
+  - changed-files:
+      - any-glob-to-any-file:
+          - '.github/**'
+          - '.gitignore'
+          - '.releaserc.json'
+
+'type: docs':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'README.md'
+          - 'docs/**'
+
+'type: legal':
+  - changed-files:
+      - any-glob-to-any-file:
+          - 'LICENSE*'
