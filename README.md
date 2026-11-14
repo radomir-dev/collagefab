@@ -133,6 +133,17 @@ server-side fallback.
 | `#/docs` | Components API reference for `CollageFab`. |
 | anything else | Redirects to `#/`. |
 
+## Testing
+
+`src/components/collageFabGeometry.ts` holds the mask and translation maths, so it can be
+tested without a DOM: `tests/geometry.test.ts` asserts the translate offsets, the mask axis
+and stop order, and the invariant that a slice's mask position and translation cancel out —
+the cut line stays pinned while the button travels. `tests/behaviour.test.tsx` runs the
+component in jsdom for triggers, keyboard flow, controlled state and click-away.
+`e2e/collagefab.spec.ts` is the browser-level check, because jsdom cannot compute masks:
+it reads the real `transform` and `mask-position` after hovering and verifies they move by
+the same pitch in opposite directions.
+
 ## Development
 
 Requires Node.js 18 or newer.
@@ -148,6 +159,9 @@ npm run dev
 | `npm run build` | Type-check with `tsc --noEmit`, then build the demo to `dist/`. |
 | `npm run build:lib` | Build the publishable package to `dist-lib/` (ESM + CJS + types). |
 | `npm run preview` | Serve the production build locally. |
+| `npm test` | Run the Vitest suite (geometry + behaviour in jsdom). |
+| `npm run test:coverage` | Same suite with a v8 coverage report. |
+| `npm run test:e2e` | Build, then run the Playwright checks against `vite preview`. |
 
 Deployment: `.github/workflows/deploy.yml` builds the demo on every push to
 `main` and force-pushes `dist/` to the orphan `gh-pages` branch, which GitHub
