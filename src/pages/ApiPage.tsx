@@ -26,7 +26,7 @@ const PROPS: PropDoc[] = [
     type: 'React.ReactNode',
     default: '—',
     description:
-      'The buttons to stack. Every valid element is wrapped in a masked circular slot. Order matters: index 0 is the anchor, the rest fan out along direction.',
+      'The buttons to stack. Every valid element is wrapped in a masked slot shaped by variant. Order matters: index 0 is the anchor, the rest fan out along direction.',
   },
   {
     name: 'direction',
@@ -41,6 +41,13 @@ const PROPS: PropDoc[] = [
     default: "'large'",
     description:
       'Diameter of every button. Named sizes resolve to small 40px, medium 48px, large 56px; numeric values are used verbatim.',
+  },
+  {
+    name: 'variant',
+    type: "'circular' | 'rounded' | 'square'",
+    default: "'circular'",
+    description:
+      "The shape of every button. 'circular' clips each slice to a circle, 'rounded' to a rounded square and 'square' to a sharp-cornered square. The mask still slices the silhouette along the main axis, so the stack reads as one shape when collapsed and as separate shapes when expanded.",
   },
   {
     name: 'gap',
@@ -162,7 +169,7 @@ const SLOTS: SlotDoc[] = [
   {
     name: 'item',
     description:
-      'One masked circular wrapper per child. slotProps.item accepts either a props object or a callback (ownerState) => props — the per-child escape hatch. Switch on ownerState.index or ownerState.isAnchor to treat the anchor differently from the rest.',
+      'One masked wrapper per child, shaped by variant. slotProps.item accepts either a props object or a callback (ownerState) => props — the per-child escape hatch. Switch on ownerState.index or ownerState.isAnchor to treat the anchor differently from the rest.',
   },
 ];
 
@@ -177,6 +184,12 @@ const OWNER_STATE: FieldDoc[] = [
   { name: 'direction', type: "'left' | 'right' | 'up' | 'down'", description: 'The resolved fan-out direction.' },
   { name: 'trigger', type: "'hover' | 'click' | 'manual'", description: 'The resolved pointer trigger mode.' },
   { name: 'size', type: 'number', description: 'The button diameter in pixels, after resolving the named size.' },
+  { name: 'variant', type: "'circular' | 'rounded' | 'square'", description: 'The resolved shape of every button.' },
+  {
+    name: 'cornerRadius',
+    type: 'number | string',
+    description: 'The corner radius resolved from variant, applied to every item wrapper and inherited by its child.',
+  },
   { name: 'gap', type: 'number', description: 'The main-axis gap in pixels.' },
   { name: 'fadeWidth', type: 'number', description: 'The fade width in pixels.' },
   { name: 'count', type: 'number', description: 'The number of valid children currently rendered.' },
@@ -217,7 +230,7 @@ const BEHAVIOR_NOTES = [
   'Escape collapses the group.',
   'Keyboard: while collapsed the root is focusable; Enter or Space opens it and moves focus to the first item; Escape collapses it and returns focus to the root.',
   'While collapsed, the item wrappers are aria-hidden and made non-focusable, so the collapsed slices leave both the tab order and the accessibility tree.',
-  'Every child is forced to box-shadow: none and 100% size, so the root owns the single drop shadow.',
+  "Every child is forced to box-shadow: none, 100% size and the wrapper's corner radius, so the root owns the single silhouette and drop shadow.",
 ];
 
 const USAGE_EXAMPLE = `import { Fab } from '@mui/material';
@@ -425,7 +438,7 @@ export function ApiPage() {
         CollageFab
       </Typography>
       <Typography color="text.secondary" sx={{ maxWidth: 780, mb: 1 }}>
-        A floating action button that stacks several children into a single circle and unfolds them along a configurable
+        A floating action button that stacks several children into a single shape and unfolds them along a configurable
         direction on interaction. The root animates its own main-axis extent and applies one shared drop shadow, while
         each child is clipped by a moving gradient mask.
       </Typography>
@@ -437,6 +450,13 @@ export function ApiPage() {
 
       <SectionHeading>Props</SectionHeading>
       <DocTable columns={propColumns} rows={propRows} />
+      <Typography color="text.secondary" sx={{ maxWidth: 780, mb: 6 }}>
+        <Box component="span" sx={{ ...mono, color: 'grey.300' }}>variant</Box> covers the three common shapes. For any
+        other corner radius, override the item wrapper through{' '}
+        <Box component="span" sx={{ ...mono, color: 'grey.300' }}>slotProps.item.sx</Box> — for example{' '}
+        <Box component="span" sx={{ ...mono, color: 'grey.300' }}>{'{ borderRadius: 8 }'}</Box>. There is no separate
+        radius prop, and every child inherits the wrapper radius, so the whole stack keeps a single silhouette.
+      </Typography>
 
       <SectionHeading>Slots</SectionHeading>
       <DocTable columns={slotColumns} rows={slotRows} minWidth={520} />

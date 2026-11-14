@@ -7,6 +7,7 @@ import type { CreateSlotsAndSlotProps, SlotProps } from '@mui/material/utils';
 import useSlotProps from '@mui/utils/useSlotProps';
 import composeClasses from '@mui/utils/composeClasses';
 import generateUtilityClass from '@mui/utils/generateUtilityClass';
+import { getItemGeometry, resolveSize } from './collageFabGeometry';
 
 export type CollageFabDirection = 'left' | 'right' | 'up' | 'down';
 
@@ -14,10 +15,14 @@ export type CollageFabTrigger = 'hover' | 'click' | 'manual';
 
 export type CollageFabSize = 'small' | 'medium' | 'large' | number;
 
-const SIZE_MAP: Record<'small' | 'medium' | 'large', number> = {
-  small: 40,
-  medium: 48,
-  large: 56,
+export type CollageFabVariant = 'circular' | 'rounded' | 'square';
+
+// `'rounded'` scales with the button so its corner reads the same at every size;
+// 25% stays a rounded square, where a circle would need 50%.
+const CORNER_RADIUS: Record<CollageFabVariant, number | string> = {
+  circular: '50%',
+  rounded: '25%',
+  square: 0,
 };
 
 const FOCUSABLE_DESCENDANT_SELECTOR = [
@@ -46,6 +51,8 @@ export interface CollageFabOwnerState {
   direction: CollageFabDirection;
   trigger: CollageFabTrigger;
   size: number;
+  variant: CollageFabVariant;
+  cornerRadius: number | string;
   gap: number;
   fadeWidth: number;
   count: number;
@@ -97,6 +104,14 @@ export interface CollageFabProps
    * @default 'large'
    */
   size?: CollageFabSize;
+  /**
+   * The shape of every button. `'circular'` clips each slice to a circle,
+   * `'rounded'` to a rounded square and `'square'` to a sharp-cornered square.
+   * The mask still slices the silhouette along the main axis, so the stack reads
+   * as one shape when collapsed and as separate shapes when expanded.
+   * @default 'circular'
+   */
+  variant?: CollageFabVariant;
   /**
    * Main axis gap between two buttons when expanded, in pixels.
    * @default 16
@@ -156,54 +171,8 @@ export interface CollageFabProps
   classes?: Partial<CollageFabClasses>;
 }
 
-function resolveSize(size: CollageFabSize): number {
-  return typeof size === 'number' ? size : SIZE_MAP[size];
-}
-
 function getTransitionTiming(duration: number, easing: string): string {
   return `${duration}ms ${easing}`;
-}
-
-/**
- * Every mask is an absolutely positioned window that is slid against the item's
- * own translation, which pins the visible cut line to a fixed position in the
- * container while the button morphs. `spread` is the distance the mask image has
- * to cover to reach across the whole expanded row, so it scales with `gap`.
- */
-function getItemGeometry(index: number, ownerState: CollageFabOwnerState): CollageFabItemGeometry {
-  const { count, size, gap, fadeWidth, open, direction } = ownerState;
-  const pitch = size + gap;
-  const spread = (count - 1) * pitch + size + fadeWidth;
-  const offset = index * pitch;
-  const leading = direction === 'left' || direction === 'up';
-  const horizontal = direction === 'left' || direction === 'right';
-
-  // Slice boundaries. The anchor is pushed a whole `spread` past the opaque window
-  // so its cut line never crosses the button: it is never clipped.
-  const boundary = index === 0 ? spread : (count - index) * (size / count);
-  const anchorBoundary = index === 0 ? -fadeWidth / 2 : index * (size / count);
-  // Collapsed, every slice sits on the anchor; the mask stays put and only the cut
-  // lines separate them.
-  const shift = open ? offset : 0;
-
-  const ramp = leading
-    ? boundary - spread - fadeWidth / 2 + shift
-    : anchorBoundary - spread - fadeWidth / 2 - shift;
-
-  // The gradient axis stays fixed per orientation; only the stop order flips.
-  const stops = leading
-    ? `#000 0px, #000 ${spread}px, transparent ${spread + fadeWidth}px, transparent ${2 * spread}px`
-    : `transparent 0px, transparent ${spread}px, #000 ${spread + fadeWidth}px, #000 ${2 * spread}px`;
-
-  const translate = `${leading ? '-' : ''}${shift}`;
-
-  return {
-    translate: horizontal ? `translateX(${translate}px)` : `translateY(${translate}px)`,
-    maskImage:
-      count > 1 ? `linear-gradient(${horizontal ? 'to right' : 'to bottom'}, ${stops})` : 'none',
-    maskSize: horizontal ? `${2 * spread}px 100%` : `100% ${2 * spread}px`,
-    maskPosition: horizontal ? `${ramp}px 0px` : `0px ${ramp}px`,
-  };
 }
 
 function getCollageFabUtilityClass(slot: string) {
@@ -251,7 +220,8 @@ const CollageFabItemRoot = styled('div', {
   slot: 'item',
   overridesResolver: (_props, styles) => styles.item,
 })(({ ownerState }: { ownerState: CollageFabItemOwnerState }) => {
-  const { direction, size, index, geometry, transitionDuration, transitionEasing } = ownerState;
+  const { direction, size, index, geometry, cornerRadius, transitionDuration, transitionEasing } =
+    ownerState;
   const horizontal = direction === 'left' || direction === 'right';
   const anchorEdge =
     direction === 'left'
@@ -269,7 +239,7 @@ const CollageFabItemRoot = styled('div', {
     ...(horizontal ? { top: 0 } : { left: 0 }),
     width: size,
     height: size,
-    borderRadius: '50%',
+    borderRadius: cornerRadius,
     overflow: 'hidden',
     display: 'flex',
     alignItems: 'center',
@@ -288,9 +258,11 @@ const CollageFabItemRoot = styled('div', {
     WebkitMaskRepeat: 'no-repeat',
     maskRepeat: 'no-repeat',
     transition: `transform ${timing}, -webkit-mask-position ${timing}, mask-position ${timing}`,
-    // Strip arbitrary shadows from the children so the root controls the global 3D shape.
+    // Strip arbitrary shadows from the children and make them inherit the wrapper's
+    // silhouette, so the root controls the global 3D shape.
     '& > *': {
       boxShadow: 'none !important',
+      borderRadius: 'inherit !important',
       width: '100%',
       height: '100%',
       margin: 0,
@@ -373,6 +345,7 @@ export const CollageFab = React.forwardRef<HTMLDivElement, CollageFabProps>(
       children,
       direction = 'left',
       size = 'large',
+      variant = 'circular',
       gap = 16,
       fadeWidth = 12,
       trigger = 'hover',
@@ -408,6 +381,8 @@ export const CollageFab = React.forwardRef<HTMLDivElement, CollageFabProps>(
       direction,
       trigger,
       size: resolveSize(size),
+      variant,
+      cornerRadius: CORNER_RADIUS[variant],
       gap,
       fadeWidth,
       count,

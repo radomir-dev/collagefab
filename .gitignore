@@ -1,8 +1,14 @@
 node_modules
 dist
+dist-lib
 dist-ssr
+*.tgz
 *.local
 .vite
 .DS_Store
 
 .cortexkit
+.playwright-mcp
+coverage
+test-results
+playwright-report

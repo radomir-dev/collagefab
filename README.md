@@ -1,57 +1,32 @@
-# CollageFab
+# MUI CollageFab
+
+**[Live demo →](https://radomir.dev/mui-collage-fab/)**
+
+| Collapsed | Expanded |
+| --- | --- |
+| <img src="https://raw.githubusercontent.com/radomir-dev/mui-collage-fab/main/docs/collagefab-collapsed.png" alt="Three CollageFab buttons collapsed into a single stacked circle" height="104" /> | <img src="https://raw.githubusercontent.com/radomir-dev/mui-collage-fab/main/docs/collagefab-expanded.png" alt="Three CollageFab buttons fanned out into a horizontal row" height="104" /> |
 
 A Material UI floating action button that behaves like a collapsed stack of overlapping circles. Collapsed, a set of `Fab`s sits perfectly stacked and reads as a single button with soft gradient slices at the edges. On hover (mouse) or tap (touch), the parent expands its main-axis extent and the buttons fan out into a row while their CSS masks slide in lockstep with the movement — so the unfold reads as one continuous morph instead of a pop.
 
 The trick is that each child is a full circle clipped by a static linear-gradient mask. As the element translates along the main axis, the `mask-position` is translated back by the same amount, keeping the fade boundary fixed in container space. Because the fade is a gradient rather than a hard clip, the parent's `filter: drop-shadow(...)` traces the soft edges cleanly.
 
-## Requirements
+Not affiliated with or endorsed by MUI.
 
-- Node.js 18 or newer.
-
-## Getting started
+## Install
 
 ```bash
-npm install
-npm run dev
+npm install mui-collage-fab @mui/material @emotion/react @emotion/styled
 ```
 
-## Routes
-
-Routing is hash-based, so the built site works on any static host without a
-server-side fallback.
-
-| URL | Page |
-| --- | --- |
-| `/` | Demo — the component across button counts and directions. |
-| `#/docs` | Components API reference for `CollageFab`. |
-| anything else | Redirects to `#/`. |
-
-## Deployment
-
-The demo and docs are published to GitHub Pages:
-
-1. Demo — <https://tiriana.github.io/collagefab/>
-2. Components API — <https://tiriana.github.io/collagefab/#/docs>
-
-`.github/workflows/deploy.yml` builds the project and publishes `dist/` on every
-push to `main`. The production build uses a `/collagefab/` asset base while the
-dev server stays at the root, so the local URL is unchanged — see
-`vite.config.ts`.
-
-## Scripts
-
-| Command | Description |
-| --- | --- |
-| `npm run dev` | Start the Vite dev server with HMR. |
-| `npm run build` | Type-check with `tsc --noEmit`, then build to `dist/`. |
-| `npm run preview` | Serve the production build locally. |
+`react`, `react-dom`, `@mui/material` and the two emotion packages are peer
+dependencies, so the package never ships its own copy of React or MUI.
 
 ## Usage
 
 ```tsx
 import { Fab } from '@mui/material';
 import { Settings, BugReport, Speed } from '@mui/icons-material';
-import { CollageFab } from './components/CollageFab';
+import { CollageFab } from 'mui-collage-fab';
 
 <CollageFab
   direction="left"
@@ -93,6 +68,7 @@ const [open, setOpen] = useState(false);
 | `children` | `React.ReactNode` | — | The buttons to stack. Order matters: index 0 is the anchor. |
 | `direction` | `'left' \| 'right' \| 'up' \| 'down'` | `'left'` | Which way the row fans out from the anchor. `'left'` pins the stack to the right edge and expands leftward. |
 | `size` | `'small' \| 'medium' \| 'large' \| number` | `'large'` | Diameter of each button. `small` 40, `medium` 48, `large` 56; numbers are used verbatim. |
+| `variant` | `'circular' \| 'rounded' \| 'square'` | `'circular'` | Shape of each button. `rounded` uses a 25% corner radius, which scales with `size`. For an arbitrary radius, use `slotProps.item.sx`. |
 | `gap` | `number` | `16` | Main-axis gap in pixels between buttons when expanded. |
 | `fadeWidth` | `number` | `12` | Width in pixels of the soft gradient ramp at each slice edge. `0` gives a hard cut. |
 | `trigger` | `'hover' \| 'click' \| 'manual'` | `'hover'` | `'hover'` opens on mouse enter, closes on leave, toggles on touch/pen tap. `'click'` toggles on any click. `'manual'` disables built-in pointer interaction. |
@@ -137,6 +113,64 @@ const theme = createTheme({
 1. **The parent must pin the anchor edge.** The root animates its own main-axis extent, so it only fans out if its parent keeps the anchor edge fixed: `justify-content: flex-end` for `direction="left"`, `flex-start` for `"right"`, `align-items: flex-end` for `"up"`, `flex-start` for `"down"`. Otherwise the root grows in place and pushes surrounding content instead of fanning out.
 2. **Each child is forced to `box-shadow: none` and 100% size**, so the parent owns the global shadow shape. Pass visual styles via each child's `sx`; the component overrides sizing and shadow only. Overriding that reset requires `slotProps.item.sx['& > *']` with `!important`.
 3. **The single `drop-shadow` lives on the root**, because a filter traces the soft mask edges while a `box-shadow` would trace the wrapper rectangles. Setting `overflow: hidden` on the root via `sx` clips the fan-out.
-4. **Collapsed slices are hidden from assistive technology.** While collapsed, the item wrappers are `aria-hidden` and made non-focusable, so they leave the tab order and the accessibility tree. The root stays focusable: Enter or Space opens the group, focus moves to the first item, and Escape closes it and returns focus to the root.
-5. **With a single child no mask is applied** — it behaves like a plain `Fab`.
-6. **`direction` is physical, not logical.** It is not mirrored under RTL; right-to-left layouts should set `direction="left"` explicitly.
+4. **Shapes.** `variant` covers the three common cases; children inherit the wrapper's corner radius, so the shape applies to the whole group rather than to each button's own `Fab` default. Any other radius is reachable with `slotProps.item.sx`.
+5. **Collapsed slices are hidden from assistive technology.** While collapsed, the item wrappers are `aria-hidden` and made non-focusable, so they leave the tab order and the accessibility tree. The root stays focusable: Enter or Space opens the group, focus moves to the first item, and Escape closes it and returns focus to the root.
+6. **With a single child no mask is applied** — it behaves like a plain `Fab`.
+7. **`direction` is physical, not logical.** It is not mirrored under RTL; right-to-left layouts should set `direction="left"` explicitly.
+
+## Demo site
+
+1. Demo — <https://radomir.dev/mui-collage-fab/>
+2. Components API — <https://radomir.dev/mui-collage-fab/#/docs>
+3. Playground — <https://radomir.dev/mui-collage-fab/#/playground>
+
+Routing is hash-based, so the built site works on any static host without a
+server-side fallback.
+
+| URL | Page |
+| --- | --- |
+| `/` | Demo — the component across button counts and directions. |
+| `#/docs` | Components API reference for `CollageFab`. |
+| anything else | Redirects to `#/`. |
+
+## Testing
+
+`src/components/collageFabGeometry.ts` holds the mask and translation maths, so it can be
+tested without a DOM: `tests/geometry.test.ts` asserts the translate offsets, the mask axis
+and stop order, and the invariant that a slice's mask position and translation cancel out —
+the cut line stays pinned while the button travels. `tests/behaviour.test.tsx` runs the
+component in jsdom for triggers, keyboard flow, controlled state and click-away.
+`e2e/collagefab.spec.ts` is the browser-level check, because jsdom cannot compute masks:
+it reads the real `transform` and `mask-position` after hovering and verifies they move by
+the same pitch in opposite directions.
+
+## Development
+
+Requires Node.js 22.12 or newer.
+
+```bash
+npm install
+npm run dev
+```
+
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the Vite dev server with HMR. |
+| `npm run build` | Type-check with `tsc --noEmit`, then build the demo to `dist/`. |
+| `npm run build:lib` | Build the publishable package to `dist-lib/` (ESM + CJS + types). |
+| `npm run preview` | Serve the production build locally. |
+| `npm test` | Run the Vitest suite (geometry + behaviour in jsdom). |
+| `npm run test:coverage` | Same suite with a v8 coverage report. |
+| `npm run test:e2e` | Build, then run the Playwright checks against `vite preview`. |
+
+Deployment: `.github/workflows/deploy.yml` builds the demo on every push to
+`main` and force-pushes `dist/` to the orphan `gh-pages` branch, which GitHub
+Pages serves. The branch has no shared history with `main`, so it only ever
+holds built files. `.github/workflows/publish.yml` runs `semantic-release` on
+every push to `main`: conventional commit subjects decide the version (`fix:`
+patch, `feat:` minor, `BREAKING CHANGE:` major), and a release publishes the
+package, writes `CHANGELOG.md`, and commits the bump back with `[skip ci]`.
+Pull request titles are linted to the same convention, which matters because
+squash merges put the PR title in the commit subject. The production build uses a `/mui-collage-fab/` asset
+base while the dev server stays at the root, so the local URL is unchanged —
+see `vite.config.ts`.

@@ -12,8 +12,10 @@ import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-
 import { theme } from './theme';
 import { DemoPage } from './pages/DemoPage';
 import { ApiPage } from './pages/ApiPage';
+import { PlaygroundPage } from './pages/PlaygroundPage';
+import { AuthorBadge, RepoLink, VersionBadge } from './site/ProjectChrome';
 
-const TAB_ROUTES = ['/', '/docs'] as const;
+const TAB_ROUTES = ['/', '/docs', '/playground'] as const;
 
 export default function App() {
   const { pathname } = useLocation();
@@ -49,15 +51,21 @@ export default function App() {
           >
             <Tab label="Demo" />
             <Tab label="Components API" />
+            <Tab label="Playground" />
           </Tabs>
+          <RepoLink />
         </Toolbar>
       </AppBar>
 
       <Routes>
         <Route path="/" element={<DemoPage />} />
         <Route path="/docs" element={<ApiPage />} />
+        <Route path="/playground" element={<PlaygroundPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+
+      <AuthorBadge />
+      <VersionBadge />
     </ThemeProvider>
   );
 }
