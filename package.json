@@ -58,6 +58,7 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "npm run build && playwright test",
+    "types:test": "vitest --run --typecheck",
     "fix": "npm run format && npm run lint -- --fix",
     "release": "semantic-release",
     "prepublishOnly": "npm run build:lib"

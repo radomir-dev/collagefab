@@ -11,10 +11,20 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./tests/setup.ts'],
     include: ['tests/**/*.test.{ts,tsx}'],
+    typecheck: {
+      include: ['tests/**/*.test-d.ts'],
+      tsconfig: './tsconfig.json',
+    },
     coverage: {
       provider: 'v8',
       include: ['src/components/**'],
       reporter: ['text', 'lcov'],
+      thresholds: {
+        statements: 85,
+        branches: 75,
+        functions: 85,
+        lines: 85,
+      },
     },
   },
 });
