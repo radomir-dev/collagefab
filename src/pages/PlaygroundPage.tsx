@@ -74,11 +74,13 @@ const codeBlockSx = {
   border: '1px solid',
   borderColor: 'divider',
   overflowX: 'auto',
-  fontSize: 13,
-  lineHeight: 1.7,
+  fontSize: 12,
+  lineHeight: 1.6,
   color: 'grey.300',
   whiteSpace: 'pre',
   flexGrow: 1,
+  maxHeight: 300,
+  overflowY: 'auto',
 } as const;
 
 function GroupHeading({ children }: { children: React.ReactNode }) {
@@ -218,15 +220,15 @@ export function PlaygroundPage() {
   const manual = trigger === 'manual';
 
   return (
-    <Container maxWidth="xl" sx={{ py: 8 }}>
-      <Typography variant="h3" fontWeight="900" gutterBottom align="center" color="white">
+    <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Typography variant="h3" fontWeight="900" align="center" color="white">
         Playground
       </Typography>
       <Typography
         variant="subtitle1"
         color="text.secondary"
         align="center"
-        mb={6}
+        mb={1}
         sx={{ maxWidth: 700, mx: 'auto' }}
       >
         Tune every prop of <strong>CollageFab</strong> and watch the stack respond live.
@@ -260,7 +262,7 @@ export function PlaygroundPage() {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  minHeight: 460,
+                  minHeight: 320,
                   borderRadius: 3,
                   border: '1px dashed',
                   borderColor: 'divider',
@@ -353,7 +355,7 @@ export function PlaygroundPage() {
           <Paper
             elevation={0}
             sx={{
-              p: 3,
+              p: 1.5,
               borderRadius: 4,
               border: '1px solid',
               borderColor: 'divider',
@@ -361,10 +363,10 @@ export function PlaygroundPage() {
               height: '100%',
             }}
           >
-            <Stack spacing={2.5} divider={<Divider flexItem />}>
+            <Stack spacing={1.5} divider={<Divider flexItem />}>
               <Box>
                 <GroupHeading>Shape</GroupHeading>
-                <Stack spacing={2} sx={{ mt: 1.5 }}>
+                <Stack spacing={1.5} sx={{ mt: 1.5 }}>
                   <ControlRow label="Variant" value={variant}>
                     <ToggleButtonGroup
                       exclusive
@@ -403,11 +405,6 @@ export function PlaygroundPage() {
                       max={40}
                       step={1}
                       value={gap}
-                      marks={[
-                        { value: 0, label: '0' },
-                        { value: 20, label: '20' },
-                        { value: 40, label: '40' },
-                      ]}
                       valueLabelDisplay="auto"
                       onChange={(_event, value) => setGap(value as number)}
                     />
@@ -419,11 +416,6 @@ export function PlaygroundPage() {
                       max={40}
                       step={1}
                       value={fadeWidth}
-                      marks={[
-                        { value: 0, label: '0' },
-                        { value: 20, label: '20' },
-                        { value: 40, label: '40' },
-                      ]}
                       valueLabelDisplay="auto"
                       onChange={(_event, value) => setFadeWidth(value as number)}
                     />
@@ -436,7 +428,7 @@ export function PlaygroundPage() {
 
               <Box>
                 <GroupHeading>Layout &amp; motion</GroupHeading>
-                <Stack spacing={2} sx={{ mt: 1.5 }}>
+                <Stack spacing={1.5} sx={{ mt: 1.5 }}>
                   <ControlRow label="Direction" value={direction}>
                     <ToggleButtonGroup
                       exclusive
@@ -460,11 +452,6 @@ export function PlaygroundPage() {
                       max={7}
                       step={1}
                       value={count}
-                      marks={[
-                        { value: 1, label: '1' },
-                        { value: 4, label: '4' },
-                        { value: 7, label: '7' },
-                      ]}
                       valueLabelDisplay="auto"
                       onChange={(_event, value) => setCount(value as number)}
                     />
@@ -476,11 +463,6 @@ export function PlaygroundPage() {
                       max={2000}
                       step={50}
                       value={transitionDuration}
-                      marks={[
-                        { value: 0, label: '0' },
-                        { value: 1000, label: '1s' },
-                        { value: 2000, label: '2s' },
-                      ]}
                       valueLabelDisplay="auto"
                       onChange={(_event, value) => setTransitionDuration(value as number)}
                     />
@@ -507,7 +489,7 @@ export function PlaygroundPage() {
 
               <Box>
                 <GroupHeading>Interaction</GroupHeading>
-                <Stack spacing={2} sx={{ mt: 1.5 }}>
+                <Stack spacing={1.5} sx={{ mt: 1.5 }}>
                   <ControlRow label="Trigger" value={trigger}>
                     <ToggleButtonGroup
                       exclusive
@@ -524,24 +506,23 @@ export function PlaygroundPage() {
                     </ToggleButtonGroup>
                   </ControlRow>
 
-                  <Box sx={{ opacity: manual ? 1 : 0.45 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                      <Typography variant="body2" fontWeight={600} color="grey.200">
-                        Open
+                  {manual && (
+                    <Box>
+                      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <Typography variant="body2" fontWeight={600} color="grey.200">
+                          Open
+                        </Typography>
+                        <Switch
+                          checked={open}
+                          onChange={(event) => setOpen(event.target.checked)}
+                          inputProps={{ 'aria-label': 'Open' }}
+                        />
+                      </Box>
+                      <Typography variant="caption" color="text.secondary">
+                        Drives the controlled open prop.
                       </Typography>
-                      <Switch
-                        checked={open}
-                        disabled={!manual}
-                        onChange={(event) => setOpen(event.target.checked)}
-                        inputProps={{ 'aria-label': 'Open' }}
-                      />
                     </Box>
-                    <Typography variant="caption" color="text.secondary">
-                      {manual
-                        ? 'Drives the controlled open prop.'
-                        : 'Set trigger to manual to control open directly.'}
-                    </Typography>
-                  </Box>
+                  )}
                 </Stack>
               </Box>
             </Stack>

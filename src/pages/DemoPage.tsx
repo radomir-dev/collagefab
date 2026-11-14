@@ -26,11 +26,11 @@ const BUTTON_MAX = 56;
 const GAP_MIN = 6;
 const GAP_MAX = 14;
 const GAP_RATIO = 0.25;
-const CARD_MIN_HEIGHT = 200;
+const CARD_MIN_HEIGHT = 180;
 const DIRECTION_BUTTON_COUNT = 4;
 const DIRECTION_SIZE = 48;
 const DIRECTION_GAP = 12;
-const DIRECTION_SQUARE = 360;
+const DIRECTION_SQUARE = 300;
 
 interface RowFit {
   size: number;
@@ -85,7 +85,7 @@ function useMeasuredWidth<T extends HTMLElement>() {
 }
 
 const CARD_SX = {
-  p: 4,
+  p: 3,
   borderRadius: 4,
   display: 'flex',
   flexDirection: 'column',
@@ -264,11 +264,11 @@ function DirectionSquare({
 
 export function DemoPage() {
   return (
-    <Container maxWidth="xl" sx={{ py: 8 }}>
+    <Container maxWidth="xl" sx={{ py: 4 }}>
       <Typography variant="h3" fontWeight="900" gutterBottom align="center" color="white">
         Perfected CollageFab
       </Typography>
-      <Typography variant="subtitle1" color="text.secondary" align="center" mb={8} sx={{ maxWidth: 700, mx: 'auto' }}>
+      <Typography variant="subtitle1" color="text.secondary" align="center" mb={2} sx={{ maxWidth: 700, mx: 'auto' }}>
         Mathematical clipping slices overlapping circles. Simultaneous inverse translation of the
         <strong> WebkitMaskPosition</strong> against the component's <strong>translateX</strong> creates a
         flawless morphing unfold without bounds popping.
@@ -282,7 +282,7 @@ export function DemoPage() {
         ))}
       </Grid>
 
-      <Typography variant="h5" fontWeight="bold" color="white" align="center" mt={8} mb={4}>
+      <Typography variant="h5" fontWeight="bold" color="white" align="center" mt={3} mb={2}>
         Direction
       </Typography>
 
