@@ -1,8 +1,19 @@
 import GitHubIcon from '@mui/icons-material/GitHub';
-import { Box, IconButton, Link, Typography } from '@mui/material';
+import { IconButton, Typography } from '@mui/material';
 
 const AUTHOR_URL = 'https://radomir.dev/';
 const RELEASE_URL = `${__REPO_URL__}/releases/tag/v${__APP_VERSION__}`;
+
+const WATERMARK_SX = {
+  position: 'fixed',
+  bottom: 8,
+  fontSize: 11,
+  fontFamily: 'monospace',
+  letterSpacing: '0.04em',
+  color: 'text.disabled',
+  textDecoration: 'none',
+  '&:hover': { color: 'text.secondary', textDecoration: 'underline' },
+} as const;
 
 export function RepoLink() {
   return (
@@ -22,16 +33,18 @@ export function RepoLink() {
   );
 }
 
-export function AuthorFooter() {
+export function AuthorBadge() {
   return (
-    <Box component="footer" sx={{ mt: 'auto', py: 3, textAlign: 'center' }}>
-      <Typography variant="body2" color="text.secondary">
-        Built by{' '}
-        <Link href={AUTHOR_URL} underline="hover" color="inherit">
-          Radomir Wojtera
-        </Link>
-      </Typography>
-    </Box>
+    <Typography
+      component="a"
+      href={AUTHOR_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="Author: radomir.dev"
+      sx={{ ...WATERMARK_SX, right: 10 }}
+    >
+      author: radomir.dev
+    </Typography>
   );
 }
 
@@ -44,17 +57,7 @@ export function VersionBadge() {
       rel="noopener noreferrer"
       aria-label={`Version ${__APP_VERSION__} release on GitHub`}
       title={`v${__APP_VERSION__} release`}
-      sx={{
-        position: 'fixed',
-        left: 10,
-        bottom: 8,
-        fontSize: 11,
-        fontFamily: 'monospace',
-        letterSpacing: '0.04em',
-        color: 'text.disabled',
-        textDecoration: 'none',
-        '&:hover': { color: 'text.secondary', textDecoration: 'underline' },
-      }}
+      sx={{ ...WATERMARK_SX, left: 10 }}
     >
       v{__APP_VERSION__}
     </Typography>
