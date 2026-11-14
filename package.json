@@ -89,7 +89,7 @@
     "@axe-core/playwright": "^4.14.0",
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
-    "@eslint/js": "^9.39.5",
+    "@eslint/js": "^10.0.1",
     "@mui/icons-material": "^5.16.7",
     "@mui/material": "^5.16.7",
     "@playwright/test": "^1.65.1",
